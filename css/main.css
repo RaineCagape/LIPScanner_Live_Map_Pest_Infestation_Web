@@ -1,0 +1,16 @@
+.gap {
+	width: 100%;
+	height: 59px;
+}
+
+
+.login-form {
+	position: relative;
+	margin: auto;
+    width: 30%;
+ }
+
+
+.navbar {
+	background: #a90000;
+}
