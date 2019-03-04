@@ -48,7 +48,7 @@
 				PEST:
 					<select name="pestName"  class="form-control" style="font-size: 13px;">
 						<option selected="selected" value="All" >All</option>
-						<option value="Bark Borer">Bark Borer</option>
+						<option value="Bark Borer" > <img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png">Bark Borer</option>
 						<option value="Mussel Scale Insect">Mussel Scale Insect</option>
 						<option value="Twig Borer">Twig Borer</option>
 						<option value="Mealy Bug">Mealy Bug</option>

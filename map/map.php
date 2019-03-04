@@ -33,7 +33,7 @@
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
-            var marker = new google.maps.Marker({position: userLatLng, map: map,  animation: google.maps.Animation.DROP,});
+            var marker = new google.maps.Marker({position: userLatLng, map: map,  animation: google.maps.Animation.BOUNCE,});
             infoWindow.open(map);
             map.setCenter(userLatLng);
             }, function() {
@@ -52,28 +52,55 @@
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
       }
-    //locate pest infestations with marker
-    var beaches = [
-      [8.4465,124.6370],
-    ];
+        //if option is set-SELECT WHERE pest=option
+        //else SELECT *
+      //Locate pest infestation through markers
+      var locationData = [
+        [8.4465,124.6370,'Bark Borer'], //syntax in retrieving data in database and assign it here
+      ];
 
-    function setMarkers(map) {
-      var image = {
-        url: 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png',
-        scaledSize: new google.maps.Size(35, 35),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32)
-      };
-      for (var i = 0; i < beaches.length; i++) {
-        var beach = beaches[i];
-        var marker = new google.maps.Marker({
-          position: {lat: beach[0], lng: beach[1]},
-          map: map,
-          icon: image,
-          animation: google.maps.Animation.BOUNCE,
-        });
-      }
-    }
+      function setMarkers(map) {
+         
+          var icon, option, filter, coordinates;
+          for (var i = 0; i < locationData.length; i++) {
+            coordinates = locationData[i];
+            //for icon filter
+            filter = coordinates[2];
+            switch(filter) {
+              case 'Bark Borer':
+                icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
+              break;
+              case 'Mussel Scale Insect':
+                icon=  'http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png';
+              break;
+              case 'Twig Borer':
+                icon= 'http://maps.google.com/mapfiles/kml/pushpin/green-pushpin.png';
+              break;
+              case 'Mealy Bug':
+                icon= 'http://maps.google.com/mapfiles/kml/pushpin/yellow-pushpin.png';
+              break;
+              case 'Aphid':
+                icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
+              break;
+            }
+            //set icon style
+            var image = {
+              //marker color code for pest
+                url: icon,
+                scaledSize: new google.maps.Size(35, 35),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(0, 32)
+            };
+              var marker = new google.maps.Marker({
+              position: {lat: coordinates[0], lng: coordinates[1]},
+              map: map,
+              icon: image,
+              animation: google.maps.Animation.DROP,
+            });
+
+            // } 
+          }
+        }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"
     async defer></script>
