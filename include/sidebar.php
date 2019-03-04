@@ -46,25 +46,24 @@
 			<div class="panel" id="panel1">
 				<br>
 				PEST:
-					<select name="pestName"  class="form-control monStart" style="font-size: 13px;">
-						<option selected="true" value="" >Select</option>
-							<?php
-								for($i = 1;$i<=5;$i++){
-									$Month= date('F', mktime(0, 0, 0, $i, 10));
-									echo "<option ". (($_POST['pestName'] == $i) ? 'selected ' : '') ."value=\"".$i."\">".$Month."</option>";
-								}
-							?>
+					<select name="pestName"  class="form-control" style="font-size: 13px;">
+						<option selected="selected" value="All" >All</option>
+						<option value="Bark Borer">Bark Borer</option>
+						<option value="Mussel Scale Insect">Mussel Scale Insect</option>
+						<option value="Twig Borer">Twig Borer</option>
+						<option value="Mealy Bug">Mealy Bug</option>
+						<option value="Aphid">Aphid</option>
 					</select>
 				DATE:
-				<br>&nbsp; From 
-				<input type="date" name="dateStart" class="form-control" style="font-size: 13px;"
-				 id="dateStart" value="<?php if(isset($_POST['dateStart']))
-				 {echo $_POST['dateStart'];}?>">
-				&nbsp; To 
-				<input type="date" name="dateStart" class="form-control" style="font-size: 13px;"
-				id="dateStart" value="<?php if(isset($_POST['dateStart']))
-				{echo $_POST['dateStart'];}?>">
-			</div>
+					<br>&nbsp; From 
+					<input type="date" name="dateStart" class="form-control" style="font-size: 13px;"
+					id="dateStart" value="<?php if(isset($_POST['dateStart']))
+					{echo $_POST['dateStart'];}?>">
+					&nbsp; To 
+					<input type="date" name="dateStart" class="form-control" style="font-size: 13px;"
+					id="dateStart" value="<?php if(isset($_POST['dateStart']))
+					{echo $_POST['dateStart'];}?>">
+				</div>
 			<!--  Database Adjustments -->
 		<button class="accordion">Infestation Figures by Region</button>
 			<div class="panel" id="panel2">
