@@ -4,6 +4,7 @@
 <style>
 .under-rar {
     background: #F5DA85;
+    position: fixed;
     font-size: 12px;
     bottom: 0px;
     width: 100%;

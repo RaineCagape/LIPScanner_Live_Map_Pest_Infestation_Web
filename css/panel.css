@@ -1,0 +1,44 @@
+.sidebar {
+    /* background: #120d05; */
+    font-size: 15px;
+		height: 545px;
+    width: 230px;
+}
+.accordion {
+  background-color: #fffffc;
+  color: #444;
+	font-weight: bold;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 12px;
+  transition: 0.4s;
+}
+.accordion:hover {
+  background-color: #f2f5b6; 
+}
+.panel {
+  padding: 0 18px;
+  display: block;
+  overflow: hidden;
+	background-color: #bbf585;
+	font-size: 13px;
+}
+
+#option{
+	font-size: 10px;
+	width: 100px;
+	height: 23px;
+	margin-bottom: 5px;
+}
+
+#panel1{
+	height:240px; 
+	padding: 10px;
+}
+#panel2{
+	height:228px; 
+	overflow-y: scroll;
+}
