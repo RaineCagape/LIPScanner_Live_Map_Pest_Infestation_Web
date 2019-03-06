@@ -1,7 +1,14 @@
 <?php
-if(isset($_POST['view'])){
-	$_SESSION['optionpick']=$_POST['pestpick'];
-}
+	session_start(); 
+	$pest = "";
+	//get value from post data and store into session
+	if (isset($_POST['pestpick'])){
+		$_SESSION['optionpick'] = $_POST['pestpick'];
+	}
+	//get back from session
+	if (isset($_SESSION['optionpick'])){
+		$pest = $_SESSION['optionpick'];
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,28 +18,28 @@ if(isset($_POST['view'])){
 		<button class="accordion" >Options</button>
 			<div class="panel" id="panel1">
 				PEST:  &nbsp; &nbsp;
-					<form action="">
-						<input type="radio" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
-						<input type="radio" name="pestpick" value="Bark Borer">
+					<form action="sidebar.php" method="post">
+						&nbsp;<input <?php if ($pest=='All'){ echo 'checked="checked"';} ?> type="radio" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
+						&nbsp;<input <?php if ($pest=='Bark Borer'){ echo 'checked="checked"';} ?>type="radio" name="pestpick" value="Bark Borer">
 						<img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>
-						<input type="radio" name="pestpick" value="Mussel Scale Insect">
+						&nbsp;<input <?php if ($pest=='Mussel Scale Insect'){ echo 'checked="checked"';} ?> type="radio" name="pestpick" value="Mussel Scale Insect">
 						<img src="http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png" height="15" width="18">&nbsp; Mussel Scale Insect<br>
-						<input type="radio" name="pestpick" value="Twig Borer">
+						&nbsp;<input <?php if ($pest=='Twig Borer'){ echo 'checked="checked"';} ?> type="radio" name="pestpick" value="Twig Borer">
 						<img src="http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png" height="15" width="18">&nbsp; Twig Borer<br>
-						<input type="radio" name="pestpick" value="Mealy Bug">
+						&nbsp;<input <?php if ($pest=='Mealy Bug'){ echo 'checked="checked"';} ?> type="radio" name="pestpick" value="Mealy Bug">
 						<img src="http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png" height="15" width="18">&nbsp; Mealy Bug<br>
-						<input type="radio" name="pestpick" value="Aphid">
+						&nbsp;<input <?php if ($pest=='Aphid'){ echo 'checked="checked"';} ?> type="radio" name="pestpick" value="Aphid">
 						<img src="http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png" height="15" width="18">&nbsp; Aphid<br>
 					</form>
 				DATE:
-					<br> From &nbsp; 
+					<br> &nbsp;From &nbsp; 
 					<input type="date" name="dateStart" 
 					id="option" value="<?php if(isset($_POST['dateStart']))
 					{echo $_POST['dateStart'];}?>">
-					<br> To &nbsp; &nbsp; &nbsp; 
-					<input type="date" name="dateStart"
-					id="option" value="<?php if(isset($_POST['dateStart']))
-					{echo $_POST['dateStart'];}?>"> &nbsp; &nbsp;
+					<br>&nbsp; To &nbsp; &nbsp; &nbsp; 
+					<input type="date" name="dateEnd"
+					id="option" value="<?php if(isset($_POST['dateEnd']))
+					{echo $_POST['dateEnd'];}?>"> &nbsp;
 					<button class="btn " id="view" name="view" style="font-size: 12px; margin-top: -32px; background-color: white;">VIEW</button>
 				</div>
 			<!--  Database Adjustments -->

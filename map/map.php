@@ -1,4 +1,3 @@
-
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0">
@@ -60,12 +59,11 @@
         [8.4491,124.6466,'Mussel Scale Insect'],
         [8.4453,124.6424,'Twig Borer'],
         [8.4439,124.6416,'Aphid'],
-        [8.4419,124.6258,'Bark Borer'],
+        [7.0610853,125.6126775,'Bark Borer'],
       ];
 
-      function setMarkers(map) {
-         
-          var icon, option, filter, coordinates, pickPest;
+      function setMarkers(map) {      
+          var icon, option, filter, coordinates;
           for (var i = 0; i < locationData.length; i++) {
             coordinates = locationData[i];
             //for icon filter
@@ -93,26 +91,15 @@
                 url: icon,
                 scaledSize: new google.maps.Size(35, 35),
                 origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(0, 32)
+                anchor: new google.maps.Point(0, 32),
+                type: 'poly',
             };
-            pickPest =  '<?php echo $_SESSION['optionpick']; ?>';
-            if(pickPest==filter){
-                var marker = new google.maps.Marker({
-                position: {lat: coordinates[0], lng: coordinates[1]},
-                map: map,
-                icon: image,
-                animation: google.maps.Animation.BOUNCE,
-              });
-            }
-            else if(pickPest=='All'{
-              var marker = new google.maps.Marker({
-                position: {lat: coordinates[0], lng: coordinates[1]},
-                map: map,
-                icon: image,
-                animation: google.maps.Animation.BOUNCE,
-              });
-
-            })
+            var marker = new google.maps.Marker({
+              position: {lat: coordinates[0], lng: coordinates[1]},
+              map: map,
+              icon: image,
+              animation: google.maps.Animation.BOUNCE,
+            });
           }
         }
     </script>
