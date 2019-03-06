@@ -52,6 +52,14 @@
         //if option is set-SELECT WHERE pest=option
         //else SELECT *
       //Locate pest infestation through 
+
+       //Locate pest infestation through 
+      //  var locationData;
+      // const dbGetData = firebase.database{}.ref().child('');
+
+      // dbGetData.on{'value'}, snap => {
+      //   locationData=JSON.stringnify(snap.val{},null,3);
+      // });
      
       var locationData = [//syntax in retrieving data in database and assign it here
         [8.4435,124.6536,'Bark Borer'],
