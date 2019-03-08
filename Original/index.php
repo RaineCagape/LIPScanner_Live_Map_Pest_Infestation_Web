@@ -4,7 +4,6 @@
 <html>
 <head>
     <title>Home | LIPS Live Map</title> 
-    <script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
 </head>
 <body>
     <?php include ('include/head.php');?>

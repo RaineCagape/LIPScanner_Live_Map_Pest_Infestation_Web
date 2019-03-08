@@ -6,7 +6,7 @@
 	<div class="sidebar">
 		<button class="accordion" >Options</button>
 			<div class="panel" id="panel1">
-				PEST:  &nbsp; &nbsp;
+				PEST:  <br>
 						&nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
 						&nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer">
 						<img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>

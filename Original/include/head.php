@@ -11,4 +11,6 @@
 <script src="js/jquery-3.3.1.slim.min.js"></script>
 
 <script src="/config/firebasedb.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.8.6/firebase-database.js"></script>
+<script src="/__/firebase/init.js"></script>

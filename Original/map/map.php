@@ -24,6 +24,7 @@
         });
         setMarkers(map);
         infoWindow = new google.maps.InfoWindow;
+        //Get User Location
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             var userLatLng = {
@@ -49,26 +50,46 @@
                               'Error: Your browser doesn\'t support geolocation.');
         infoWindow.open(map);
       }
-        //if option is set-SELECT WHERE pest=option
-        //else SELECT *
-      //Locate pest infestation through 
 
-       //Locate pest infestation through 
-      //  var locationData;
-      // const dbGetData = firebase.database{}.ref().child('');
+       var firebase = new Firebase('https://lipscannrdb.firebaseio.com');
 
-      // dbGetData.on{'value'}, snap => {
-      //   locationData=JSON.stringnify(snap.val{},null,3);
+      // var ref = firebase.database().ref("dinosaurs");
+      // ref.orderByKey().on("child_added", function(snapshot) {
+      // console.log(snapshot.key);
       // });
-     
-      var locationData = [//syntax in retrieving data in database and assign it here
-        [8.4435,124.6536,'Bark Borer'],
-        [8.4465,124.6370,'Mealy Bug'], 
-        [8.4491,124.6466,'Mussel Scale Insect'],
-        [8.4453,124.6424,'Twig Borer'],
-        [8.4439,124.6416,'Aphid'],
-        [7.0610853,125.6126775,'Bark Borer'],
-      ];
+    
+    // var locationData= [//syntax in retrieving data in database and assign it here
+    //     [7.057290, 125.610828,'Bark Borer'],
+    //     [7.055740, 125.610187,'Mealy Bug'], 
+    //     [7.056366, 125.607881,'Mussel Scale Insect'],
+    //     [7.056243, 125.604280,'Twig Borer'],
+    //     [7.059059, 125.607834,'Aphid'],
+    //     [7.0610853,125.6126775,'Bark Borer'],
+    // ];
+    var locationData[];
+
+    var firebaseLongData = firebase.database().ref().parent;
+    var firebaseNumLoc = firebaseLongData.on('value', function(datasnapshot) {
+       datasnapshot.numChildren(); 
+    });
+
+    
+    
+    for(int a= 0; a<firebaseNumLoc;a++){
+      var firebaseLongData = firebase.database().ref().child("N");
+      var firebaseLatData = firebase.database().ref().child("E");
+      var firebasePestData = firebase.database().ref().child("pest");
+      firebaseLongData.on('value', function(datasnapshot){
+        locationData[0] = datasnapshot;
+     })
+      firebaseLongData.on('value', function(datasnapshot){
+        locationData[1] = datasnapshot;
+      })
+      firebaseLongData.on('value', function(datasnapshot){
+        locationData[2] = datasnapshot;
+      })
+    }
+    
 
       function setMarkers(map) {      
           var icon, option, filter, coordinates;
@@ -109,8 +130,9 @@
               animation: google.maps.Animation.BOUNCE,
             });
           }
-        }
+      }
     </script>
+      <script src="tag.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"
     async defer></script>
   </body>
