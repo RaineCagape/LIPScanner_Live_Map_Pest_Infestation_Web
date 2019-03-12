@@ -14,3 +14,26 @@
 .navbar {
 	background: #a90000;
 }
+
+.header {
+    background: #F5DA85;
+    font-size: 15px;
+    bottom: 0px;
+	min-height: 70px;
+    width: 100%;
+    padding: 15px;
+}
+
+.under {
+    background: #F5DA85;
+    position: fixed;
+    font-size: 12px;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+}
+
+#map {
+	height: 100%;
+  }

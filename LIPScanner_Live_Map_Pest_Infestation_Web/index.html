@@ -1,51 +1,80 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <title>Home | LIPS Live Map</title> 
+  </head>
+  <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to HELL!!</title>
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/panel.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
-    <!-- update the version number as needed -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/jquery-3.3.1.slim.min.js"></script>
+
     <script defer src="/__/firebase/5.8.6/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
     <script defer src="/__/firebase/5.8.6/firebase-auth.js"></script>
     <script defer src="/__/firebase/5.8.6/firebase-database.js"></script>
     <script defer src="/__/firebase/5.8.6/firebase-messaging.js"></script>
     <script defer src="/__/firebase/5.8.6/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
 
-  </head>
+  <header class="header">
+		LIPScanner Live Pest Infestation Map <br>LOGO
+	</header>
   <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>THAT FUCKING NIGHTMARE Setup is FUCKING Complete</h1>
-      <p>Your days are overr!!  Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
+    <div class="container-fluid">
+      <div id="content">
+        <div class="row">
+          <div class="sidebar">
+            <button class="accordion" >Options</button>
+            <div class="panel" id="panel1">
+              PEST:  <br>
+                &nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
+                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer">
+                  <img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>
+                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mussel Scale Insect">
+                  <img src="http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png" height="15" width="18">&nbsp; Mussel Scale Insect<br>
+                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Twig Borer">
+                  <img src="http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png" height="15" width="18">&nbsp; Twig Borer<br>
+                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mealy Bug">
+                  <img src="http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png" height="15" width="18">&nbsp; Mealy Bug<br>
+                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Aphid">
+                  <img src="http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png" height="15" width="18">&nbsp; Aphid<br>
+              DATE:
+                <br> &nbsp;From &nbsp; 
+                  <input type="date" name="dateStart" id="option" value="<?php if(isset($_POST['dateStart'])) {echo $_POST['dateStart'];}?>">
+                  <br>&nbsp; To &nbsp; &nbsp; &nbsp; 
+                  <input type="date" name="dateEnd" id="option" value="<?php if(isset($_POST['dateEnd']))  {echo $_POST['dateEnd'];}?>"> &nbsp;
+              <button class="btn " id="view" name="view" style="font-size: 12px; margin-top: -32px; background-color: white;">VIEW</button>
+            </div>
+          </div>
+          <div class="col-sm">
+              <script src="map/map.js"></script>
+            <div id="map"></div>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap" async defer></script>
+          </div>
+        </div>
+      </div>
+    </div> 
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
         try {
           let app = firebase.app();
           let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
           document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
+        } 
+        catch (e) {
           console.error(e);
           document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
         }
       });
     </script>
   </body>
+  <footer class="under">
+		LIPScanner Live Pest Infestation Map 2019
+	</footer>
 </html>
