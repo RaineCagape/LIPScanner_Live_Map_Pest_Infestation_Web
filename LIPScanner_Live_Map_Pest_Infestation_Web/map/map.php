@@ -51,44 +51,44 @@
         infoWindow.open(map);
       }
 
-       var firebase = new Firebase('https://lipscannrdb.firebaseio.com');
+      //  var firebase = new Firebase('https://lipscannrdb.firebaseio.com');
 
       // var ref = firebase.database().ref("dinosaurs");
       // ref.orderByKey().on("child_added", function(snapshot) {
       // console.log(snapshot.key);
       // });
     
-    // var locationData= [//syntax in retrieving data in database and assign it here
-    //     [7.057290, 125.610828,'Bark Borer'],
-    //     [7.055740, 125.610187,'Mealy Bug'], 
-    //     [7.056366, 125.607881,'Mussel Scale Insect'],
-    //     [7.056243, 125.604280,'Twig Borer'],
-    //     [7.059059, 125.607834,'Aphid'],
-    //     [7.0610853,125.6126775,'Bark Borer'],
-    // ];
-    var locationData[];
+    var locationData= [//syntax in retrieving data in database and assign it here
+        [7.057290, 125.610828,'Bark Borer'],
+        [7.055740, 125.610187,'Mealy Bug'], 
+        [7.056366, 125.607881,'Mussel Scale Insect'],
+        [7.056243, 125.604280,'Twig Borer'],
+        [7.059059, 125.607834,'Aphid'],
+        [7.0610853,125.6126775,'Bark Borer'],
+    ];
+    // var locationData[];
 
-    var firebaseLongData = firebase.database().ref().parent;
-    var firebaseNumLoc = firebaseLongData.on('value', function(datasnapshot) {
-       datasnapshot.numChildren(); 
-    });
+    // var firebaseLongData = firebase.database().ref().parent;
+    // var firebaseNumLoc = firebaseLongData.on('value', function(datasnapshot) {
+    //    datasnapshot.numChildren(); 
+    // });
 
     
     
-    for(int a= 0; a<firebaseNumLoc;a++){
-      var firebaseLongData = firebase.database().ref().child("N");
-      var firebaseLatData = firebase.database().ref().child("E");
-      var firebasePestData = firebase.database().ref().child("pest");
-      firebaseLongData.on('value', function(datasnapshot){
-        locationData[0] = datasnapshot;
-     })
-      firebaseLongData.on('value', function(datasnapshot){
-        locationData[1] = datasnapshot;
-      })
-      firebaseLongData.on('value', function(datasnapshot){
-        locationData[2] = datasnapshot;
-      })
-    }
+    // for(int a= 0; a<firebaseNumLoc;a++){
+    //   var firebaseLongData = firebase.database().ref().child("N");
+    //   var firebaseLatData = firebase.database().ref().child("E");
+    //   var firebasePestData = firebase.database().ref().child("pest");
+    //   firebaseLongData.on('value', function(datasnapshot){
+    //     locationData[0] = datasnapshot;
+    //  })
+    //   firebaseLongData.on('value', function(datasnapshot){
+    //     locationData[1] = datasnapshot;
+    //   })
+    //   firebaseLongData.on('value', function(datasnapshot){
+    //     locationData[2] = datasnapshot;
+    //   })
+    // }
     
 
       function setMarkers(map) {      

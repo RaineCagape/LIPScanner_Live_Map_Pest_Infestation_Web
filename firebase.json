@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "LIPScanner_Live_Map_Pest_Infestation_Web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
