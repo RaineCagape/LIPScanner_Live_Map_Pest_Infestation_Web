@@ -10,7 +10,6 @@
   firebase.initializeApp(config);
 
   // Initialize the default app
-  firebase.initializeApp(defaultAppConfig);
 
   // // Initialize another app with a different config
   // var otherApp = firebase.initializeApp(otherAppConfig, "other");

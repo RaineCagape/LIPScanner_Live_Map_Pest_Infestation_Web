@@ -15,16 +15,24 @@
     <script src="js/popper.js"></script>
     <script src="js/jquery-3.3.1.slim.min.js"></script>
 
-    <script defer src="/__/firebase/5.8.6/firebase-app.js"></script>
-    <script defer src="/__/firebase/5.8.6/firebase-auth.js"></script>
-    <script defer src="/__/firebase/5.8.6/firebase-database.js"></script>
-    <script defer src="/__/firebase/5.8.6/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/5.8.6/firebase-storage.js"></script>
-    <script defer src="/__/firebase/init.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase-functions.js"></script>
+
+    <script src="/__/firebase/5.8.6/firebase-app.js"></script>
+    <script src="/__/firebase/5.8.6/firebase-auth.js"></script>
+    <script src="/__/firebase/5.8.6/firebase-database.js"></script>
+    <script src="/__/firebase/5.8.6/firebase-functions.js"></script>
+    <script src="/__/firebase/init.js"></script>
+
+    <script src="config/firebasedb.js"></script> 
 
   <header class="header">
-		LIPScanner Live Pest Infestation Map <br>LOGO
-	</header>
+    LIPScanner Live Pest Infestation Map <br>LOGO
+    <h1 id="longitudePlacemat"></h1>
+  </header>
+  <script src="map/trial.js"></script>
   <body>
     <div class="container-fluid">
       <div id="content">
@@ -59,20 +67,7 @@
           </div>
         </div>
       </div>
-    </div> 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } 
-        catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
+    </div>
   </body>
   <footer class="under">
 		LIPScanner Live Pest Infestation Map 2019
