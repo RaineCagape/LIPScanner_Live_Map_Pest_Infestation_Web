@@ -32,7 +32,7 @@
     LIPScanner Live Pest Infestation Map <br>LOGO
     <h1 id="longitudePlacemat"></h1>
   </header>
-  <script src="map/trial.js"></script>
+  <!-- <script src="map/trial.js"></script> -->
   <body>
     <div class="container-fluid">
       <div id="content">
@@ -54,16 +54,16 @@
                   <img src="http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png" height="15" width="18">&nbsp; Aphid<br>
               DATE:
                 <br> &nbsp;From &nbsp; 
-                  <input type="date" name="dateStart" id="option" value="<?php if(isset($_POST['dateStart'])) {echo $_POST['dateStart'];}?>">
+                  <input type="date" name="dateStart" id="option">
                   <br>&nbsp; To &nbsp; &nbsp; &nbsp; 
-                  <input type="date" name="dateEnd" id="option" value="<?php if(isset($_POST['dateEnd']))  {echo $_POST['dateEnd'];}?>"> &nbsp;
+                  <input type="date" name="dateEnd" id="option"> &nbsp;
               <button class="btn " id="view" name="view" style="font-size: 12px; margin-top: -32px; background-color: white;">VIEW</button>
             </div>
           </div>
           <div class="col-sm">
               <script src="map/map.js"></script>
+              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"async defer></script>
             <div id="map"></div>
-              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap" async defer></script>
           </div>
         </div>
       </div>
