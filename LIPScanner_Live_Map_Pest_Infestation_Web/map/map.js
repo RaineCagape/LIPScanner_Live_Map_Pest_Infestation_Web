@@ -34,15 +34,25 @@ function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
     infoWindow.open(map);
 }
 
-var locationData= [//syntax in retrieving data in database and assign it here
-  [7.057290, 125.610828,'Bark Borer'],
-  [7.055740, 125.610187,'Mealy Bug'], 
-  [7.056366, 125.607881,'Mussel Scale Insect'],
-  [7.056243, 125.604280,'Twig Borer'],
-  [7.059059, 125.607834,'Aphid'],
-  [7.0610853,125.6126775,'Bark Borer'],
-];
-   
+// var locationData= [//syntax in retrieving data in database and assign it here
+//   [7.057290, 125.610828,'Bark Borer'],
+//   [7.055740, 125.610187,'Mealy Bug'], 
+//   [7.056366, 125.607881,'Mussel Scale Insect'],
+//   [7.056243, 125.604280,'Twig Borer'],
+//   [7.059059, 125.607834,'Aphid'],
+//   [7.0610853,125.6126775,'Bark Borer'],
+// ];
+  var locationData = new Array();
+  var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+  coordinatesfirebase.on('child_added'.datasnapshot => {
+    var long = datasnapshot.child('N').val();
+    var lat = datasnapshot.child('e').val();
+    var pest = datasnapshot.child('pest').val();
+
+    locationData =[ [long ,lat,pest] ];
+
+  })
+
   function setMarkers(map) {      
     var icon, option, filter, coordinates;
     for (var i = 0; i < locationData.length; i++) {
