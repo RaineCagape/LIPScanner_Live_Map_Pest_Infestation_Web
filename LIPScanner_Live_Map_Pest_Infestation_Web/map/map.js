@@ -42,14 +42,16 @@ function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
 //   [7.059059, 125.607834,'Aphid'],
 //   [7.0610853,125.6126775,'Bark Borer'],
 // ];
-  var locationData = new Array();
+  var locationData;
   var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-  coordinatesfirebase.on('child_added'.datasnapshot => {
-    var long = datasnapshot.child('N').val();
-    var lat = datasnapshot.child('e').val();
-    var pest = datasnapshot.child('pest').val();
+  coordinatesfirebase.on('child_added', snap => {
+    var long = snapshot.child('N').val();
+    var lat = snapshot.child('E').val();
+    var pest = snapshot.child('pest').val();
 
-    locationData =[ [long ,lat,pest] ];
+    locationData = [ 
+      [long ,lat,pest] 
+    ];
 
   })
 
