@@ -4,7 +4,52 @@ function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 5
   });
-  setMarkers(map);
+  
+  var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+  var longitude, latitude, pest, icon, filter;
+
+  coordinatesfirebase.on('child_added', snap => {
+    longitude = snap.child('N').val();
+    latitude = snap.child('E').val();
+    pest = snap.child('pest').val();
+
+    //for icon filter
+    filter = pest;
+      switch(filter) {
+        case 'Bark Borer':
+          icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
+        break;
+        case 'Mussel Scale Insect':
+          icon=  'http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png';
+        break;
+        case 'Twig Borer':
+          icon= 'http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png';
+        break;
+        case 'Mealy Bug':
+          icon= 'http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png';
+        break;
+        case 'Aphid':
+          icon= 'http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png';
+        break;
+    }
+    //set icon style
+    var image = {
+      //marker color code for pest
+      url: icon,
+      scaledSize: new google.maps.Size(35, 35),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(0, 32),
+      type: 'poly',
+    };
+    var marker = new google.maps.Marker({
+      position: {lat: latitude, long: longitude},
+      map: map,
+      icon: image,
+      animation: google.maps.Animation.BOUNCE,
+    });
+    
+  })
+  
   infoWindow = new google.maps.InfoWindow;
   //Get User Location
   if (navigator.geolocation) {
@@ -42,56 +87,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
 //   [7.059059, 125.607834,'Aphid'],
 //   [7.0610853,125.6126775,'Bark Borer'],
 // ];
-  var locationData = new Array();
-  var count = 1;
-  var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-  coordinatesfirebase.on('child_added', snap => {
-    var long = snap.child('N').val();
-    var lat = snap.child('E').val();
-    var pest = snap.child('pest').val();
 
-    locationData = [[long,lat,pest]];
-
-  })
-
-  function setMarkers(map) {      
-    var icon, option, filter, coordinates;
-    for (var i = 0; i < locationData.length; i++) {
-      coordinates = locationData[i];
-      //for icon filter
-      filter = coordinates[2];
-        switch(filter) {
-          case 'Bark Borer':
-            icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
-          break;
-          case 'Mussel Scale Insect':
-            icon=  'http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png';
-          break;
-          case 'Twig Borer':
-            icon= 'http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png';
-          break;
-          case 'Mealy Bug':
-            icon= 'http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png';
-          break;
-          case 'Aphid':
-            icon= 'http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png';
-          break;
-      }
-      //set icon style
-      var image = {
-        //marker color code for pest
-        url: icon,
-        scaledSize: new google.maps.Size(35, 35),
-        origin: new google.maps.Point(0, 0),
-        anchor: new google.maps.Point(0, 32),
-        type: 'poly',
-      };
-      var marker = new google.maps.Marker({
-        position: {lat: coordinates[0], lng: coordinates[1]},
-        map: map,
-        icon: image,
-        animation: google.maps.Animation.BOUNCE,
-      });
-    }
-  }
-
+  
+  // function setMarkers(map) {      
+   
+  //   }  
+ 

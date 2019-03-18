@@ -7,6 +7,6 @@ var firebaseLongitude = firebase.database().ref().child('infestedLocations');
 // });
 
 firebaseLongitude.on('child_added', snap => {
-    var long = snap.child('N').val();
+    var long = snap.child('pest').val();
     longitudePlacemat.innerText = long;
   })
