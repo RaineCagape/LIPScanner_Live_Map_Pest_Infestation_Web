@@ -2,7 +2,7 @@
 function initMap() {
    //Get more accurate locator Syntax
   var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15
+      zoom: 5
   });
   setMarkers(map);
   infoWindow = new google.maps.InfoWindow;
@@ -42,16 +42,15 @@ function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
 //   [7.059059, 125.607834,'Aphid'],
 //   [7.0610853,125.6126775,'Bark Borer'],
 // ];
-  var locationData;
+  var locationData = new Array();
+  var count = 1;
   var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
   coordinatesfirebase.on('child_added', snap => {
-    var long = snapshot.child('N').val();
-    var lat = snapshot.child('E').val();
-    var pest = snapshot.child('pest').val();
+    var long = snap.child('N').val();
+    var lat = snap.child('E').val();
+    var pest = snap.child('pest').val();
 
-    locationData = [ 
-      [long ,lat,pest] 
-    ];
+    locationData = [[long,lat,pest]];
 
   })
 

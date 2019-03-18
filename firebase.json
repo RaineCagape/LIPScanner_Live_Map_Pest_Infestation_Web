@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "LIPScanner_Live_Map_Pest_Infestation_Web",
+    "public": "web",
     "ignore": [
       "firebase.json",
       "**/.*",
