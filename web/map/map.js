@@ -1,17 +1,22 @@
 
 function initMap() {
+
+  var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
    //Get more accurate locator Syntax
   var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 5
+      zoom: 16
   });
   
   var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-  var longitude, latitude, pest, icon, filter;
 
   coordinatesfirebase.on('child_added', snap => {
-    longitude = snap.child('N').val();
-    latitude = snap.child('E').val();
-    pest = snap.child('pest').val();
+    latFirebase = snap.child('N').val();
+    longFirebase = snap.child('E').val();
+    pestFirebase = snap.child('pest').val();
+
+    lat = Number(latFirebase);
+    long = Number(longFirebase);
+    pest = String(pestFirebase);
 
     //for icon filter
     filter = pest;
@@ -41,8 +46,9 @@ function initMap() {
       anchor: new google.maps.Point(0, 32),
       type: 'poly',
     };
-    var marker = new google.maps.Marker({
-      position: {lat: latitude, long: longitude},
+
+    var marker = new google.maps.Marker({ //Observe heree!!
+      position: {lat: lat, lng: long},
       map: map,
       icon: image,
       animation: google.maps.Animation.BOUNCE,
@@ -58,13 +64,14 @@ function initMap() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
   };
-    var marker = new google.maps.Marker({position: userLatLng, map: map,  animation: google.maps.Animation.DROP,});
+   var marker = new google.maps.Marker({position: userLatLng, map: map,  animation: google.maps.Animation.DROP,});
       infoWindow.open(map);
       map.setCenter(userLatLng);
-    }, function() {
+    }, 
+   function() {
       handleLocationError(true, infoWindow, map.getCenter());
     });
-    } 
+  } 
   else {
     // if Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter());

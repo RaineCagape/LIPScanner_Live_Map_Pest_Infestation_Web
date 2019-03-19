@@ -8,5 +8,5 @@ var firebaseLongitude = firebase.database().ref().child('infestedLocations');
 
 firebaseLongitude.on('child_added', snap => {
     var long = snap.child('pest').val();
-    longitudePlacemat.innerText = long;
-  })
+    $('#longitudePlacemat').append(long);
+})
