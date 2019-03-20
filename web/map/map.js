@@ -1,18 +1,34 @@
 
 function initMap() {
 
-  var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
+  var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option;
    //Get more accurate locator Syntax
   var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 16
   });
   
-  var coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+    // $(document).ready(function(){
+    //     option = $("input[name='pickpest']:checked").val().click();
+    // });
 
+    $('input[name=pestpick]').change(function(){
+      option = $( 'input[name=pestpick]:checked' ).val();
+  });
+    
+    // coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+    if(option ='All'){
+      coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+    }
+    else{
+      var query = firebase.database().ref('infestedLocations');
+      coordinatesfirebase = query.orderByChild("database/pest").equalTo("option");
+    }
+  
   coordinatesfirebase.on('child_added', snap => {
+   
+    pestFirebase = snap.child('pest').val();
     latFirebase = snap.child('N').val();
     longFirebase = snap.child('E').val();
-    pestFirebase = snap.child('pest').val();
 
     lat = Number(latFirebase);
     long = Number(longFirebase);
@@ -37,6 +53,7 @@ function initMap() {
           icon= 'http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png';
         break;
     }
+    
     //set icon style
     var image = {
       //marker color code for pest

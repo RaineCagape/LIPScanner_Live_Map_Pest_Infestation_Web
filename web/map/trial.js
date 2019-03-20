@@ -10,3 +10,4 @@ firebaseLongitude.on('child_added', snap => {
     var long = snap.child('pest').val();
     $('#longitudePlacemat').append(long);
 })
+
