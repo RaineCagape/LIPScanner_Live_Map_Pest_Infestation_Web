@@ -30,9 +30,12 @@
 
     <script src="config/firebasedb.js"></script> 
 
-  <header class="header">
-    LIPScanner Live Pest Infestation Map <br>LOGO
+  <header class="header head-font">
+   <b>LIPScanner</b> Live Pest Infestation Map </b> 
     <h1 id="longitudePlacemat"></h1>
+      <button class="btn float-right" type="submit">
+          LOG IN
+      </button>
   </header>
   <!-- <script src="map/trial.js"></script> -->
   <body>
@@ -41,26 +44,30 @@
         <div class="row">
           <div class="sidebar">
             <button class="accordion" >Options</button>
-            <div class="panel" id="panel1">
-              PEST:  <br>
-                &nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
-                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer">
-                  <img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>
-                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mussel Scale Insect">
-                  <img src="http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png" height="15" width="18">&nbsp; Mussel Scale Insect<br>
-                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Twig Borer">
-                  <img src="http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png" height="15" width="18">&nbsp; Twig Borer<br>
-                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mealy Bug">
-                  <img src="http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png" height="15" width="18">&nbsp; Mealy Bug<br>
-                &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Aphid">
-                  <img src="http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png" height="15" width="18">&nbsp; Aphid<br>
-              DATE:
-                <br> &nbsp;From &nbsp; 
-                  <input type="date" name="dateStart" id="option">
-                  <br>&nbsp; To &nbsp; &nbsp; &nbsp; 
-                  <input type="date" name="dateEnd" id="option"> &nbsp;
-              <button class="btn" id="view" name="view" style="font-size: 12px; margin-top: -32px; background-color: white;">VIEW</button>
-            </div>
+            <form action="#" class="optionForm" class="optionForm" method="post" >
+              <fieldset>
+                <div class="panel" id="panel1">
+                  PEST:  <br>
+                    &nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
+                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer">
+                      <img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>
+                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mussel Scale Insect">
+                      <img src="http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png" height="15" width="18">&nbsp; Mussel Scale Insect<br>
+                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Twig Borer">
+                      <img src="http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png" height="15" width="18">&nbsp; Twig Borer<br>
+                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mealy Bug">
+                      <img src="http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png" height="15" width="18">&nbsp; Mealy Bug<br>
+                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Aphid">
+                      <img src="http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png" height="15" width="18">&nbsp; Aphid<br>
+                  <!-- DATE:
+                    <br> &nbsp;From &nbsp; 
+                      <input type="date" name="dateStart" id="option">
+                      <br>&nbsp; To &nbsp; &nbsp; &nbsp; 
+                      <input type="date" name="dateEnd" id="option"> &nbsp; -->
+                  <button class="btn" id="view" name="view">VIEW</button>
+                </div>
+              </fieldset>
+            </form>
           </div>
           <div class="col-sm">
               <script src="map/map.js"></script>

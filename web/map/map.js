@@ -1,30 +1,32 @@
 
 function initMap() {
-
-  var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option;
+  var longFirebase, latFirebase, pestFirebase,optionPicked, icon, filter, long, lat, pest, coordinatesfirebase, option;
    //Get more accurate locator Syntax
   var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 16
+      zoom: 5
   });
   
-    // $(document).ready(function(){
-    //     option = $("input[name='pickpest']:checked").val().click();
-    // });
+  optionPicked = document.getElementById('pestpick');
+  var len;
+  for (var i=0, len=optionPicked.length; i<len; i++) {
+    optionPicked[i].onclick = function() { 
+      // assign onclick handler function to each
+        option = this.value;
+    };
+  }
 
-    $('input[name=pestpick]').change(function(){
-      option = $( 'input[name=pestpick]:checked' ).val();
-  });
-    
-    // coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-    if(option ='All'){
-      coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-    }
-    else{
-      var query = firebase.database().ref('infestedLocations');
-      coordinatesfirebase = query.orderByChild("database/pest").equalTo("option");
-    }
+  if(option = null){
+    coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+  }
+  else if(option ='All'){
+    coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+  }
+  else{
+    var query = firebase.database().ref('infestedLocations');
+    coordinatesfirebase = query.orderByChild("pest").equalTo(option);
+  }
   
-  coordinatesfirebase.on('child_added', snap => {
+    coordinatesfirebase.on('child_added', snap => {
    
     pestFirebase = snap.child('pest').val();
     latFirebase = snap.child('N').val();
@@ -112,6 +114,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
 //   [7.0610853,125.6126775,'Bark Borer'],
 // ];
 
+ 
   
   // function setMarkers(map) {      
    

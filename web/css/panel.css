@@ -35,10 +35,16 @@
 }
 
 #panel1{
-	height:240px; 
+	height:220px; 
 	padding: 10px;
 }
 #panel2{
 	height:228px; 
 	overflow-y: scroll;
+}
+#view{
+  font-size: 12px; 
+  padding: 10px 25px 10px 25px;
+  margin: 20px 0 30px 50px;
+  background-color: white;
 }
