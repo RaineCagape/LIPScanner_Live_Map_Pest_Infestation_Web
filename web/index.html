@@ -64,13 +64,14 @@
                       <input type="date" name="dateStart" id="option">
                       <br>&nbsp; To &nbsp; &nbsp; &nbsp; 
                       <input type="date" name="dateEnd" id="option"> &nbsp; -->
-                  <button class="btn" id="view" name="view">VIEW</button>
+                  <button class="btn" id="view" onclick="setupClickListener();" name="view">VIEW</button>
                 </div>
               </fieldset>
             </form>
           </div>
           <div class="col-sm">
               <script src="map/map.js"></script>
+              <script src="map/marker.js"></script>
               <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"async defer></script>
             <div id="map"></div>
           </div>
