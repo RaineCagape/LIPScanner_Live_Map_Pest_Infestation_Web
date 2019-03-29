@@ -13,7 +13,7 @@ function setMarkers(map) {
       coordinatesfirebase = query.orderByChild("pest").equalTo(option);
     }
     
-      coordinatesfirebase.on('child_added', snap => {
+    coordinatesfirebase.on('child_added', snap => {
      
       pestFirebase = snap.child('pest').val();
       latFirebase = snap.child('N').val();
@@ -59,8 +59,30 @@ function setMarkers(map) {
         icon: image,
         animation: google.maps.Animation.BOUNCE,
       });
-      
-    })    
+
+      var info ='<div id="content">'+
+      '<div id="bodyContent"><br>'+
+      '<h6>User Name.</h6>'+
+      '<p><b>Address:</b> Geocode<br>'+
+      '<b>Contact Number</b> User Data<br>'+
+      '<b>Date:</b> User Data<br><br>'+
+      'Infested by '+ pest +' on (Date Infested)<br>'+
+      '<b>Resolved/Unresolved</b></p>'+
+      '</div>'+
+      '</div>';
+
+      var infowindow = new google.maps.InfoWindow({
+        content: info
+      });
+
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+
+
+    })  
+
      
-}  
-   
+}
+
+
