@@ -1,5 +1,5 @@
 var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option;
-
+var address ='' ;
 function setMarkers(map) {  
     
     if(option = ""){
@@ -59,21 +59,66 @@ function setMarkers(map) {
         icon: image,
         animation: google.maps.Animation.BOUNCE,
       });
+      
+      var geocoder = new google.maps.Geocoder;
+      var infowindow = new google.maps.InfoWindow;
+      var latlng = {lat:lat, lng:long};
 
-      var info ='<div id="content">'+
-      '<div id="bodyContent"><br>'+
-      '<h6>User Name.</h6>'+
-      '<p><b>Address:</b> Geocode<br>'+
-      '<b>Contact Number</b> User Data<br>'+
-      '<b>Date:</b> User Data<br><br>'+
-      'Infested by '+ pest +' on (Date Infested)<br>'+
-      '<b>Resolved/Unresolved</b></p>'+
-      '</div>'+
-      '</div>';
-
-      var infowindow = new google.maps.InfoWindow({
-        content: info
+      geocoder.geocode({'location': latlng}, function(results, status) {
+        if (status === 'OK') {
+          if (results[0]) {
+            infowindow.setContent('<div id="content">'+
+                '<div id="bodyContent"><br>'+
+                '<h6>User Name</h6>'+
+                '<p><b>Address: </b>'+ results[0].formatted_address +'<br>'+
+                '<b>Contact Number: </b> User Data<br>'+
+                '<b>Date:</b> User Data<br><br>'+
+                'Infested by '+ pest +' on (Date Infested)<br>'+
+                '<b>Status: </b>Resolved/Unresolved</p>'+
+                '</div>'+
+                '</div>');
+          } 
+          else {
+            infowindow.setContent('<div id="content">'+
+                '<div id="bodyContent"><br>'+
+                '<h6>User Name</h6>'+
+                '<p><b>Address: </b> No results found <br>'+
+                '<b>Contact Number: </b> User Data<br>'+
+                '<b>Date:</b> User Data<br><br>'+
+                'Infested by '+ pest +' on (Date Infested)<br>'+
+                '<b>Status: </b>Resolved/Unresolved</p>'+
+                '</div>'+
+                '</div>');
+          }
+        } 
+        else {
+          infowindow.setContent('<div id="content">'+
+          '<div id="bodyContent"><br>'+
+          '<h6>User Name</h6>'+
+          '<p><b>Address: </b> Geocoder failed due to: '+ status+'<br>'+
+          '<b>Contact Number: </b> User Data<br>'+
+          '<b>Date:</b> User Data<br><br>'+
+          'Infested by '+ pest +' on (Date Infested)<br>'+
+          '<b>Status: </b>Resolved/Unresolved</p>'+
+          '</div>'+
+          '</div>');
+        }
       });
+
+      // var info ='<div id="content">'+
+      // '<div id="bodyContent"><br>'+
+      // '<h6>User Name</h6>'+
+      // '<p><b>Address: </b>'+ address +'<br>'+
+      // '<b>Contact Number: </b> User Data<br>'+
+      // '<b>Date:</b> User Data<br><br>'+
+      // 'Infested by '+ pest +' on (Date Infested)<br>'+
+      // '<b>Status: </b>Resolved/Unresolved</p>'+
+      // '</div>'+
+      // '</div>';
+
+      // var infowindow = new google.maps.InfoWindow({
+      //   content: info
+      // });
 
       marker.addListener('click', function() {
         infowindow.open(map, marker);
