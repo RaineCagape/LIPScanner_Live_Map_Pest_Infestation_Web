@@ -31,11 +31,16 @@
     <script src="config/firebasedb.js"></script> 
 
   <header class="header head-font">
-   <b>LIPScanner</b> Live Pest Infestation Map </b> 
+   <b>LIPScanner</b> Live Pest Infestation Map 
     <h1 id="longitudePlacemat"></h1>
-      <button class="btn float-right" type="submit">
-          LOG IN
-      </button>
+    <div class="float-right">
+        <!-- <h6 id='logged-in'><b>Welcome! admin user</b></h6> -->
+        <h6>BPI admin?</h6> 
+        <button class="btn log-in" type="submit">
+            <b>LOG IN</b>
+          </button>
+        
+    </div>
   </header>
   <!-- <script src="map/trial.js"></script> -->
   <body>
@@ -72,7 +77,8 @@
           <div class="col-sm">
               <script src="map/map.js"></script>
               <script src="map/marker.js"></script>
-              <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"async defer></script>
+              <script async defer
+               src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"></script>
             <div id="map"></div>
           </div>
         </div>

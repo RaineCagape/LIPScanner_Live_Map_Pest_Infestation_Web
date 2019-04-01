@@ -105,21 +105,6 @@ function setMarkers(map) {
         }
       });
 
-      // var info ='<div id="content">'+
-      // '<div id="bodyContent"><br>'+
-      // '<h6>User Name</h6>'+
-      // '<p><b>Address: </b>'+ address +'<br>'+
-      // '<b>Contact Number: </b> User Data<br>'+
-      // '<b>Date:</b> User Data<br><br>'+
-      // 'Infested by '+ pest +' on (Date Infested)<br>'+
-      // '<b>Status: </b>Resolved/Unresolved</p>'+
-      // '</div>'+
-      // '</div>';
-
-      // var infowindow = new google.maps.InfoWindow({
-      //   content: info
-      // });
-
       marker.addListener('click', function() {
         infowindow.open(map, marker);
       });
