@@ -18,7 +18,7 @@
 	background: #a90000;
 }
 
-.header {
+.head {
     background: #F5DA85;
     font-size: 25px;
     bottom: 0px;
@@ -43,7 +43,7 @@
 }
 
 .float-right{
-    margin-top: -50px;
+    margin-top: -70px;
 }
 
 #logged-in{
@@ -53,4 +53,20 @@
 .log-in{
     margin-top: -20px;
     background-color: #ffffff;
+}
+
+.modal{
+    font-family: 'Noto Sans TC', sans-serif;
+}
+
+.modal-up{
+    background-color: #F5DA85;
+}
+
+.modal-down{
+    background-color: #F5DA85;
+}
+
+.btn-login{
+    background-color: #bbf585;
 }
