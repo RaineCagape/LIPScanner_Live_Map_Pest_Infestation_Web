@@ -1,0 +1,25 @@
+
+.modal{
+    font-family: 'Noto Sans TC', sans-serif;
+    float: center;
+}
+
+.modal-up{
+    background-color: #F5DA85;
+}
+
+.modal-down{
+    background-color: #F5DA85;
+}
+
+.btn-login{
+    background-color: #bbf585;
+}
+
+.btn-logout{
+    background-color: #ec7a0f;
+}
+
+.btn-cancel{
+    background-color: #0f94ec;
+}
