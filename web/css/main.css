@@ -42,20 +42,29 @@
 	height: 100%;
 }
 
+.map-container {
+	height: 100vh;
+}
+
 .float-right{
     margin-top: -70px;
 }
 
 #logged-in{
-    margin-top: 20px;
+    margin-top: 10px;
+}
+
+#logging-in{
+    margin-top: 10px;
+    /* padding-bottom: 1px; */
 }
 
 .log-in{
-    margin-top: -20px;
+    /* margin-top: -10px; */
     background-color: #ffffff;
 }
 
 .log-out{
-    margin-top: -20px;
+    /* margin-top: -20px; */
     background-color: #ffffff;
 }
