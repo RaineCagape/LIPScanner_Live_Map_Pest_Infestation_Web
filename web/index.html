@@ -38,7 +38,6 @@
         <button class="btn log-in" id='log-in' type="submit" data-toggle="modal" data-target="#loginModal">
           <b>LOG IN</b>
       </button>
-      <script src="login/login.js"></script>
       <h6 id='logged-in' >
         <b>Welcome! admin user</b>
       </h6>
@@ -90,9 +89,7 @@
         </div>
       </div>
     </div>
-
     <div class="container">
-    
       <!-- login Modal -->
       <div class="modal fade" id="loginModal" role="dialog">
         <div class="modal-dialog">
@@ -110,11 +107,11 @@
                       <small id='email-placeholder' style="display: none; color: #f33c0e;"></small>
                     </div>
                     <div class="form-group">
-                      <label for="password1">Password</label>
-                      <input type="password" class="form-control" id="password1" placeholder="password">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="password" placeholder="password">
                       <small id='password-placeholder' style="color: #f33c0e;"></small>
                     </div>
-                    <button type="submit" id='btn-login'  onclick="userLogin();"  class="btn btn-login">Log in</button>
+                    <button type="submit" id='btn-login'  class="btn btn-login">Log in</button>
                   </form>
             </div>
           </div>
@@ -135,15 +132,14 @@
                   <div class="form-group">
                     <label for="username">Are you sure you want to log-out?</label>
                   </div>
-                  <button type="submit" onclick="userLogout();" class="btn btn-logout">Yes</button>
+                  <button type="submit" id="btn-logout" class="btn btn-logout">Yes</button>
                   <button type="submit" data-dismiss="modal" class="btn btn-cancel">Cancel</button>
                 </form>
           </div>
         </div>
       </div> 
   </div>
-
-
+  <script src="login/login.js"></script>
   </div>
 
   </body>
