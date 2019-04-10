@@ -1,16 +1,16 @@
 (function() {
 
-  var inputEmail = document.getElementById('email');
-  var inputPassword = document.getElementById('password');
-  var btnLogin = document.getElementById('btn-login');
-  var btnLogout =document.getElementById('btn-logout');
+  const inputEmail = document.getElementById('email');
+  const inputPassword = document.getElementById('password');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout =document.getElementById('btn-logout');
 
   btnLogin.addEventListener('click', e => {
-    var email = inputEmail.value;
-    var pass = inputPassword.value;
-    var auth = firebase.auth();
+    const email = inputEmail.value;
+    const pass = inputPassword.value;
+    const auth = firebase.auth();
 
-    var promise = auth.signInWithEmailandPassword(email,pass);
+    const promise = auth.signInWithEmailAndPassword(email,pass);
     console.log('logged in');
     promise.catch(e => console.log(e.message));
   });
