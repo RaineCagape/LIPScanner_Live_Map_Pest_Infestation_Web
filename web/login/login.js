@@ -10,11 +10,11 @@
     const pass = inputPassword.value;
     const auth = firebase.auth();
     
-    // const session = auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
     const promise = auth.signInWithEmailAndPassword(email,pass);
+    const session = auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
     console.log('logged in');
     promise.catch(e => console.log(e.message));
-    // session.catch(e => console.log(e.message));
+    session.catch(e => console.log(e.message));
   });
 
   btnLogout.addEventListener('click', e => {
