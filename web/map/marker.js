@@ -104,7 +104,7 @@ function setMarkers(map) {
           '</div>');
         }
       });
-
+      //Set user type identifier limit data access
       marker.addListener('click', function() {
         infowindow.open(map, marker);
       });

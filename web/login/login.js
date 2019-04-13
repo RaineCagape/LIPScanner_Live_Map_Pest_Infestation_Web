@@ -9,10 +9,12 @@
     const email = inputEmail.value;
     const pass = inputPassword.value;
     const auth = firebase.auth();
-
+    
+    // const session = auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
     const promise = auth.signInWithEmailAndPassword(email,pass);
     console.log('logged in');
     promise.catch(e => console.log(e.message));
+    // session.catch(e => console.log(e.message));
   });
 
   btnLogout.addEventListener('click', e => {
@@ -21,6 +23,7 @@
   });
 
   firebase.auth().onAuthStateChanged(firebaseUser => {
+    firebaseUser = firebase.auth().currentUser;
     if(firebaseUser){
       console.log(firebaseUser);
       document.getElementById('log-out').style.display = 'block';
