@@ -1,7 +1,29 @@
-// (function() {
+(function() {
 
-  firebase.auth().onAuthStateChanged(function(firebaseUser) {
-    // firebaseUser = firebase.auth().currentUser;
+  const inputEmail = document.getElementById('email');
+  const inputPassword = document.getElementById('password');
+  const btnLogin = document.getElementById('btn-login');
+  const btnLogout =document.getElementById('btn-logout');
+
+  btnLogin.addEventListener('click', e => {
+    const email = inputEmail.value;
+    const pass = inputPassword.value;
+    const auth = firebase.auth();
+    
+    const promise = auth.signInWithEmailAndPassword(email,pass);
+    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+    promise.catch(e => console.log(e.message));
+    // session.catch(e => console.log(e.message));
+  });
+
+  btnLogout.addEventListener('click', e => {
+    firebase.auth().signOut();
+    console.log('not logged in');
+  });
+
+  
+  firebase.auth().onAuthStateChanged(firebaseUser => {
+    firebaseUser = firebase.auth().currentUser;
     if(firebaseUser){
       console.log(firebaseUser);
       document.getElementById('log-out').style.display = 'block';
@@ -18,50 +40,4 @@
     }
   });
 
-  // const inputEmail = document.getElementById('email');
-  // const inputPassword = document.getElementById('password');
-  // const btnLogin = document.getElementById('btn-login');
-  // const btnLogout =document.getElementById('btn-logout');
-
-  function login(){
-    var inputEmail = document.getElementById('email').value;
-    var inputPassword = document.getElementById('password').value;
-
-    firebase.auth().signInWithEmailAndPassword(inputEmail,inputPassword).then(function() {
-      auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    }).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-
-      console.log('Error: '+ errorMessage);
-
-
-    });
-  }
-
-  function logout(){
-    firebase.auth().signOut();
-  }
-  
-  // btnLogin.addEventListener('click', e => {
-    // const email = inputEmail.value;
-    // const pass = inputPassword.value;
-    // const auth = firebase.auth();
-    
-    // const promise = auth.signInWithEmailAndPassword(email,pass);
-    // auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    // promise.catch(e => console.log(e.message));
-    // session.catch(e => console.log(e.message));
-  // });
-  
-
-
-  // btnLogout.addEventListener('click', e => {
-  //   firebase.auth().signOut();
-  //   console.log('not logged in');
-  // });
-
-  
-  
-
-// }());
+}());
