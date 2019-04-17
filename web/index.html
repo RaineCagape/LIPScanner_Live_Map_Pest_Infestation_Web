@@ -29,14 +29,14 @@
    <b>LIPScanner</b> Live Pest Infestation Map 
     <h1 id="longitudePlacemat"></h1>
     <div class="float-right">
-        <h6 id='logging-in'>BPI admin?</h6>
-        <button class="btn log-in" id='log-in' type="submit" data-toggle="modal" data-target="#loginModal">
+        <h6 id='logging-in'  style="display: block;"  >BPI admin?</h6>
+        <button class="btn log-in" id='log-in'  style="display: block;"  type="submit" data-toggle="modal" data-target="#loginModal">
           <b>LOG IN</b>
       </button>
-      <h6 id='logged-in' >
+      <h6 id='logged-in' style="display: none;" >
         <b>Welcome! admin user</b>
       </h6>
-        <button class="btn log-out" id='log-out' type="submit"  data-toggle="modal" data-target="#logoutModal">
+        <button class="btn log-out" id='log-out' style="display: none;" type="submit"  data-toggle="modal" data-target="#logoutModal">
           <b>LOG OUT</b>
         </button>   
     </div>
@@ -106,7 +106,7 @@
                       <input type="password" class="form-control" id="password" placeholder="password">
                       <small id='password-placeholder' style="color: #f33c0e;"></small>
                     </div>
-                    <button type="submit" id='btn-login'  class="btn btn-login">Log in</button>
+                    <button type="submit" id='btn-login' onclick="login();" class="btn btn-login">Log in</button>
                   </form>
             </div>
           </div>
@@ -127,7 +127,7 @@
                   <div class="form-group">
                     <label for="username">Are you sure you want to log-out?</label>
                   </div>
-                  <button type="submit" id="btn-logout" class="btn btn-logout">Yes</button>
+                  <button type="submit" id="btn-logout" onclick="logout();" class="btn btn-logout">Yes</button>
                   <button type="submit" data-dismiss="modal" class="btn btn-cancel">Cancel</button>
                 </form>
           </div>
