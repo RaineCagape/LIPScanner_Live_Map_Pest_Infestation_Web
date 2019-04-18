@@ -1,43 +1,47 @@
-(function() {
+const auth = firebase.auth(); 
 
-  const inputEmail = document.getElementById('email');
-  const inputPassword = document.getElementById('password');
-  const btnLogin = document.getElementById('btn-login');
-  const btnLogout =document.getElementById('btn-logout');
-
-  btnLogin.addEventListener('click', e => {
-    const email = inputEmail.value;
-    const pass = inputPassword.value;
-    const auth = firebase.auth();
-    
-    const promise = auth.signInWithEmailAndPassword(email,pass);
-    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
-    promise.catch(e => console.log(e.message));
-    // session.catch(e => console.log(e.message));
-  });
-
-  btnLogout.addEventListener('click', e => {
-    firebase.auth().signOut();
+auth.onAuthStateChanged(firebaseUser => {
+  if(firebaseUser){
+    console.log(firebaseUser);
+      document.querySelector('#log-out').style.display = 'block';
+      document.querySelector('#logging-in').style.display = 'none';
+      document.querySelector('#log-in').style.display = 'none';
+      document.querySelector('#logged-in').style.display ='block';
+  }
+  else{
     console.log('not logged in');
-  });
+      document.querySelector('#logging-in').style.display = 'block';
+      document.querySelector('#logged-in').style.display = 'none';
+      document.querySelector('#log-out').style.display = 'none';
+      document.querySelector('#log-in').style.display = 'block';
+  }
+});
 
-  
-  firebase.auth().onAuthStateChanged(firebaseUser => {
-    firebaseUser = firebase.auth().currentUser;
-    if(firebaseUser){
-      console.log(firebaseUser);
-      document.getElementById('log-out').style.display = 'block';
-      document.getElementById('logging-in').style.display = 'none';
-      document.getElementById('log-in').style.display = 'none';
-      document.getElementById('logged-in').style.display ='block';
-    }
-    else{
-      console.log('not logged in');
-      document.getElementById('logging-in').style.display = 'block';
-      document.getElementById('logged-in').style.display = 'none';
-      document.getElementById('log-out').style.display = 'none';
-      document.getElementById('log-in').style.display = 'block';
-    }
-  });
+const loginForm = document.querySelector('#loginForm');
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-}());
+  const email = loginForm['email'].value;
+  const password = loginForm['password'].value;
+
+  auth.signInWithEmailAndPassword(email,password).then(cred => {
+    console.log(cred.user);
+
+    const loginmodal = document.querySelector('#loginModal');
+    loginForm.reset();
+    $(loginmodal).hide();
+    $('.modal-backdrop').remove();
+  })
+})
+
+const logout = document.querySelector('#btn-logout');
+logout.addEventListener('click', (e) => {
+  e.preventDefault();
+  auth.signOut().then(() => {
+    console.log('user signed out');
+    const logoutmodal = document.querySelector('#logoutModal');
+    $(logoutmodal).hide();
+    $('.modal-backdrop').remove();
+  });
+});
+
