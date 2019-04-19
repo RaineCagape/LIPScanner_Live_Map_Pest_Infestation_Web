@@ -105,8 +105,18 @@ function setMarkers(map) {
         }
       });
       //Set user type identifier limit data access
+      
       marker.addListener('click', function() {
-        infowindow.open(map, marker);
+        var access = sessionStorage.getItem("Access");
+      
+        if(access=1){
+          infowindow.open(map, marker);
+        }
+        elseif(access=null){
+          $(loginmodal).show();
+          $('.modal-backdrop').show();
+        }
+      
       });
 
 

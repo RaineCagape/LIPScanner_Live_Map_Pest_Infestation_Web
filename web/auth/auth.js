@@ -3,21 +3,22 @@ const auth = firebase.auth();
 auth.onAuthStateChanged(firebaseUser => {
   if(firebaseUser){
       var user = firebase.auth().currentUser;
-
-      if(user!=null){
-         var userUID = user.uid;
-         var userType, user;
-         var ref = firebase.database().ref('user');
-         ref.orderByKey().endAt(userUID).on('child_added', snap => {
-          user = snap.child('type').val();
-        });
-        checkUser(userUID,userType);
-      }
+      var database = firebase.database();
       console.log(firebaseUser);
-         document.querySelector('#log-out').style.display = 'block';
-         document.querySelector('#logging-in').style.display = 'none';
-         document.querySelector('#log-in').style.display = 'none';
-         document.querySelector('#logged-in').style.display ='block';
+        document.querySelector('#log-out').style.display = 'block';
+        document.querySelector('#logging-in').style.display = 'none';
+        document.querySelector('#log-in').style.display = 'none';
+        document.querySelector('#logged-in').style.display ='block';
+      
+        if(user!=null){
+          var userUID = user.uid;
+          //  var typeFirebase = ref.orderByChild().endAt(userUID);
+          database.ref('/user/'+ userUID).once('value', snapshot => {
+            var userType = snapshot.val().type;
+            getUser(userUID,userType);
+          });
+       }
+     
   }
   else{
     console.log('not logged in');
@@ -50,6 +51,7 @@ logout.addEventListener('click', (e) => {
   e.preventDefault();
   auth.signOut().then(() => {
     console.log('user signed out');
+    clearSession();
     const logoutmodal = document.querySelector('#logoutModal');
     $(logoutmodal).hide();
     $('.modal-backdrop').remove();
