@@ -1,17 +1,17 @@
-var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option;
+var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option, access;
 var address ='' ;
 function setMarkers(map) {  
     
-    if(option = ""){
+    // if(option = ""){
       coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-    }
-    else if(option ='All'){
-      coordinatesfirebase = firebase.database().ref().child('infestedLocations');
-    }
-    else{
-      var query = firebase.database().ref('infestedLocations');
-      coordinatesfirebase = query.orderByChild("pest").equalTo(option);
-    }
+    // }
+    // else if(option ='All'){
+    //   coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+    // }
+    // else{
+    //   var query = firebase.database().ref('infestedLocations');
+    //   coordinatesfirebase = query.orderByChild("pest").equalTo(option);
+    // }
     
     coordinatesfirebase.on('child_added', snap => {
      
@@ -107,8 +107,7 @@ function setMarkers(map) {
       //Set user type identifier limit data access
       
       marker.addListener('click', function() {
-        var access = sessionStorage.getItem("Access");
-      
+        access = sessionStorage.getItem("Access");
         if(access=1){
           infowindow.open(map, marker);
         }
@@ -116,11 +115,10 @@ function setMarkers(map) {
           $(loginmodal).show();
           $('.modal-backdrop').show();
         }
-      
       });
 
 
-    })  
+    }); 
 
      
 }
