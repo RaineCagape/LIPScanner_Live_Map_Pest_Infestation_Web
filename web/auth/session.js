@@ -8,32 +8,25 @@ function getUser(uid,type){
         console.log("SESSION SET! \n UID: "+ uid + "\n TYPE: "+ user );
 
         if(user='admin'){
-            setAccessSession(true);
+            setAccessSession();
         }
         else{
-            setAccessSession(false);
+            sessionStorage.setItem("Access",null);
+            console.log("Pest Infestation Access Limited");
         }
     }
     else{
-        setAccessSession(false);
         window.alert("Sorry, your browser does not support Web Storage");
     }
 }
 
-function setAccessSession(bool){
-    if(bool = true){
-        sessionStorage.setItem("Access",1);
-        console.log("Pest Infestation Access Granted");
-    }
-    else{
-        sessionStorage.setItem("Access",null);
-        console.log("Pest Infestation Access Limited");
-    }
-    
+function setAccessSession(){
+    sessionStorage.setItem("Access",1);
+    console.log("Pest Infestation Access Granted");
 }
 
 function clearSession(){
     sessionStorage.setItem("userType", null);
     sessionStorage.setItem("uid", null);
-    setAccessSession(false);
+    sessionStorage.setItem("Access",null);
 }

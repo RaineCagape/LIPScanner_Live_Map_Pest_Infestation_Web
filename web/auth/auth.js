@@ -26,6 +26,7 @@ auth.onAuthStateChanged(firebaseUser => {
       document.querySelector('#logged-in').style.display = 'none';
       document.querySelector('#log-out').style.display = 'none';
       document.querySelector('#log-in').style.display = 'block';
+      getUser(null,null);
   }
 });
 

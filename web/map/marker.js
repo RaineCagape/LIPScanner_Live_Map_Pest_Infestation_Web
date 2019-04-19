@@ -112,7 +112,7 @@ function setMarkers(map) {
         if(access=1){
           infowindow.open(map, marker);
         }
-        elseif(access=null){
+        else{
           $(loginmodal).show();
           $('.modal-backdrop').show();
         }
