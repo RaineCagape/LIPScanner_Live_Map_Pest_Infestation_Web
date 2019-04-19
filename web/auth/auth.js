@@ -18,6 +18,10 @@ auth.onAuthStateChanged(firebaseUser => {
             getUser(userUID,userType);
           });
        }
+       else{
+        getUser(userUID,userType);
+        sessionStorage.setItem("Access",null);
+       }
      
   }
   else{
@@ -27,6 +31,7 @@ auth.onAuthStateChanged(firebaseUser => {
       document.querySelector('#log-out').style.display = 'none';
       document.querySelector('#log-in').style.display = 'block';
       getUser(null,null);
+      sessionStorage.setItem("Access",null);
   }
 });
 
