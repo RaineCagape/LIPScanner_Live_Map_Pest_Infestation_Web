@@ -118,7 +118,7 @@ function setMarkers(map) {
       });
 
 
-    }); 
+    })
 
      
 }

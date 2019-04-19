@@ -7,7 +7,7 @@ function getUser(uid,type){
         var user = sessionStorage.getItem("userType");
         console.log("SESSION SET! \n UID: "+ uid + "\n TYPE: "+ user );
 
-        if(user='admin'){
+        if(user=='admin'){
             setAccessSession();
         }
         else{
