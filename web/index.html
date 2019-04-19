@@ -103,8 +103,8 @@
                     </div>
                     <div class="form-group">
                       <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" placeholder="password">
-                      <small id='password-placeholder' style="color: #f33c0e;"></small>
+                      <input type="password" class="form-control" id="password" placeholder="password" required>
+                      <small id='error-placeholder' style="color: #f33c0e;"></small>
                     </div>
                     <button type="submit" id='btn-login'  class="btn btn-login">Log in</button>
                   </form>
@@ -134,6 +134,28 @@
         </div>
       </div> 
   </div>
+  
+  
+    <!-- Denied Modal -->
+    <div class="modal " id="deniedModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header modal-up">
+              <h4 class="modal-title">Access Denied</h4>
+          </div>
+          <div class="modal-body">
+              <form>
+                  <div class="form-group">
+                    <label for="denialDescription">This account is not a BPI admin. Its access is limited only to live map viewing.</label>
+                  </div>
+                  <button type="submit" data-dismiss="modal" class="btn ">Ok</button>
+                </form>
+          </div>
+        </div>
+      </div> 
+  </div>
+
   <script src="auth/auth.js"></script>
   <script src="auth/session.js"></script>
   </div>

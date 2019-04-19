@@ -1,4 +1,4 @@
-var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option, access;
+var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option, access, loginmodal;
 var address ='' ;
 function setMarkers(map) {  
     
@@ -105,19 +105,23 @@ function setMarkers(map) {
         }
       });
       //Set user type identifier limit data access
-      
+      loginmodal = document.querySelector('#loginModal');
+      access = sessionStorage.getItem("Access");
       marker.addListener('click', function() {
-        access = sessionStorage.getItem("Access");
-        if(access=1){
-          infowindow.open(map, marker);
+        if(access!=null){
+          if(access ==1){
+              infowindow.open(map, marker);
+          }
+          else{
+            $(loginmodal).show();
+            $('.modal-backdrop').show();
+          }
         }
         else{
           $(loginmodal).show();
           $('.modal-backdrop').show();
         }
       });
-
-
     })
 
      
