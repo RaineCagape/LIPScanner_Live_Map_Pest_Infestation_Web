@@ -13,8 +13,8 @@ function initMap() {
           lat: position.coords.latitude,
           lng: position.coords.longitude
   };
-   var marker = new google.maps.Marker({position: userLatLng, map: map,  animation: google.maps.Animation.DROP,});
-      infoWindow.open(map);
+   var userMarker = new google.maps.Marker({position: userLatLng, map: map,  animation: google.maps.Animation.DROP,});
+      // infoWindow.open(map);
       map.setCenter(userLatLng);
     }, 
    function() {
@@ -38,10 +38,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
     infoWindow.open(map);
 }
  
-function setupClickListener(option) {
-    optionPicked = document.getElementById('pestpick');
+// function setupClickListener(option) {
+//     optionPicked = document.getElementById('pestpick');
 
-    radioButton.addEventListener('click', function() {
-      option = optionPicked.value;
-    });
-  }
+//     radioButton.addEventListener('click', function() {
+//       option = optionPicked.value;
+//     });
+//   }

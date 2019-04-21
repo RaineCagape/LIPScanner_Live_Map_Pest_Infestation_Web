@@ -42,7 +42,6 @@
     </div>
   </header>
 
-  <!-- <script src="map/trial.js"></script> -->
   <body>
     <div class="container-fluid">
       <div id="content">
@@ -75,10 +74,6 @@
             </form>
           </div>
           <div class="col-sm map-container">
-              <script src="map/map.js"></script>
-              <script src="map/marker.js"></script>
-              <script async defer
-               src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"></script>
             <div id="map"></div>
           </div>
         </div>
@@ -96,9 +91,10 @@
             </div>
             <div class="modal-body">
                 <form id='loginForm'>
+                    <small for="loginDescription" id="loginDescription"></small>
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="Enter Email">
+                      <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
                       <small id='email-placeholder' style="display: none; color: #f33c0e;"></small>
                     </div>
                     <div class="form-group">
@@ -125,10 +121,10 @@
           <div class="modal-body">
               <form>
                   <div class="form-group">
-                    <label for="username">Are you sure you want to log-out?</label>
+                    <label for="logoutDescription">Are you sure you want to log-out?</label>
                   </div>
                   <button type="submit" id="btn-logout" class="btn btn-logout">Yes</button>
-                  <button type="submit" data-dismiss="modal" class="btn btn-cancel">Cancel</button>
+                  <button type="submit" data-dismiss="modal" class="btn">Cancel</button>
                 </form>
           </div>
         </div>
@@ -149,7 +145,7 @@
                   <div class="form-group">
                     <label for="denialDescription">This account is not a BPI admin. Its access is limited only to live map viewing.</label>
                   </div>
-                  <button type="submit" data-dismiss="modal" class="btn ">Ok</button>
+                  <button type="submit" data-dismiss="modal" class="btn btn-ok">Ok</button>
                 </form>
           </div>
         </div>
@@ -158,6 +154,10 @@
 
   <script src="auth/auth.js"></script>
   <script src="auth/session.js"></script>
+  <script src="map/map.js"></script>
+  <script src="map/marker.js"></script>
+  <script async defer
+   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"></script>
   </div>
 
   </body>

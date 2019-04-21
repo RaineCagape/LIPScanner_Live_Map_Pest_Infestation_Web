@@ -1,7 +1,8 @@
-var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest, coordinatesfirebase, option, access, loginmodal;
+var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
+var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var address ='' ;
 function setMarkers(map) {  
-    
+    //OPTION BACKEND 
     // if(option = ""){
       coordinatesfirebase = firebase.database().ref().child('infestedLocations');
     // }
@@ -105,23 +106,27 @@ function setMarkers(map) {
         }
       });
       //Set user type identifier limit data access
-      loginmodal = document.querySelector('#loginModal');
+      //USE CHECK LOGGED IN
+    
       access = sessionStorage.getItem("Access");
-      marker.addListener('click', function() {
-        if(access!=null){
-          if(access ==1){
-              infowindow.open(map, marker);
-          }
-          else{
-            $(loginmodal).show();
-            $('.modal-backdrop').show();
-          }
+
+      // marker.addListener('click', function() {   
+      //     infowindow.open(map, marker);
+      // viewInfoWindow();  
+      // });
+     
+
+     google.maps.event.addListener(marker, 'click', function() {
+        if(access == 1){
+          infowindow.open(map, marker);
         }
         else{
-          $(loginmodal).show();
-          $('.modal-backdrop').show();
+          alert('You need to be logged as a BPI admin to view infestation information.');
         }
+       
       });
+      
+
     })
 
      

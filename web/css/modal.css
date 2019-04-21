@@ -23,3 +23,7 @@
 .btn-cancel{
     background-color: #0f94ec;
 }
+
+.btn-ok{
+    float: center;
+}
