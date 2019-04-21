@@ -24,7 +24,7 @@ auth.onAuthStateChanged(firebaseUser => {
       clearSession();
   }
   getAcc = sessionStorage.getItem("Access");
-  console.log("SESSION\nuser:"+UID+"\ntype: "+user+"\nAccess: "+getAcc);
+  console.log("SESSION\nuser:"+userUID+"\ntype: "+stringType+"\nAccess: "+getAcc);
 });
 
 const loginForm = document.querySelector('#loginForm');
