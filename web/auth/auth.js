@@ -22,7 +22,7 @@ auth.onAuthStateChanged(firebaseUser => {
       document.querySelector('#logged-in').style.display = 'none';
       document.querySelector('#log-out').style.display = 'none';
       document.querySelector('#log-in').style.display = 'block';
-      clearSession();
+      sessionStorage.setItem("Access",null);
   }
   var getAcc = sessionStorage.getItem("Access");
   

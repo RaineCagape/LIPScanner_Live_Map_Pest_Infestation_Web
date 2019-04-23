@@ -116,17 +116,19 @@ function setMarkers(map) {
 
      google.maps.event.addListener(marker, 'click', function() {
       access = sessionStorage.getItem("Access");
-      const loginmodal = document.querySelector('#loginModal');
-      const desc = document.querySelector('#loginDescription');
+      var loginmodal = document.querySelector('#loginModal');
+      var desc = document.querySelector('#loginDescription');
       console.log('InfoWindow Access: '+access);
         if(access == 1){
           infowindow.open(map, marker);
         }
         else{
-          alert('You need to be logged as a BPI admin to view infestation information.');
-          $(loginmodal).show();
-          $('.modal-backdrop').show();
-          $(desc).innerHTML = "You need to be logged as a BPI admin to view infestation information.";      
+          // alert('You need to be logged as a BPI admin to view infestation information.');      
+           const deniedmodal = document.querySelector('#deniedModal');
+           const deniedDesc = document.querySelector('#deniedDescription');
+           $(deniedmodal).show();
+           $(deniedDesc).innerHTML = 'You need to be logged as a BPI admin to view infestation information.'
+           $('.modal-backdrop').show();
         }
        
       });
