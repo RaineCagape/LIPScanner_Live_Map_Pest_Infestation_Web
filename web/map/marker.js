@@ -107,8 +107,6 @@ function setMarkers(map) {
       });
       //Set user type identifier limit data access
       //USE CHECK LOGGED IN
-    
-      access = sessionStorage.getItem("Access");
 
       // marker.addListener('click', function() {   
       //     infowindow.open(map, marker);
@@ -117,11 +115,17 @@ function setMarkers(map) {
      
 
      google.maps.event.addListener(marker, 'click', function() {
+      access = sessionStorage.getItem("Access");
+      const loginmodal = document.querySelector('#loginModal');
+      console.log('InfoWindow Access: '+access);
         if(access == 1){
           infowindow.open(map, marker);
         }
         else{
           alert('You need to be logged as a BPI admin to view infestation information.');
+          $(loginmodal).show();
+          $('.modal-backdrop').show();
+          $(desc).innerHTML = "You need to be logged as a BPI admin to view infestation information.";      
         }
        
       });

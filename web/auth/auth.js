@@ -3,12 +3,13 @@ auth.onAuthStateChanged(firebaseUser => {
   if(firebaseUser){
       var user = firebase.auth().currentUser;
       var database = firebase.database();   
+      var sType, userUID;
       if(user!=null){
-        var userUID = user.uid;
+        userUID = user.uid;
         database.ref('/user/'+ userUID).once('value', snapshot => {
           var userType = snapshot.val().type;
-          var stringType = String(userType);
-          getUser(userUID,stringType);
+           sType = String(userType);
+          getUser(userUID,sType);
         });
        }
        else{
@@ -23,8 +24,15 @@ auth.onAuthStateChanged(firebaseUser => {
       document.querySelector('#log-in').style.display = 'block';
       clearSession();
   }
-  getAcc = sessionStorage.getItem("Access");
-  console.log("SESSION\nuser:"+userUID+"\ntype: "+stringType+"\nAccess: "+getAcc);
+  var getAcc = sessionStorage.getItem("Access");
+  
+  if(getAcc == 1){
+    console.log("Access Granted! => "+ getAcc);
+  }
+  else{
+    console.log("Access Denied! => "+ getAcc);
+  }
+  
 });
 
 const loginForm = document.querySelector('#loginForm');
