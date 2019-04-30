@@ -2,7 +2,6 @@ function getUser(uid,type){
     var Type, UID, user, Acc;
     const auth = firebase.auth();
     if (typeof(Storage) !== "undefined") {
-    // Store
         sessionStorage.setItem("userType", type);
         sessionStorage.setItem("uid", uid);
         UID = sessionStorage.getItem("uid");
@@ -33,8 +32,6 @@ function getUser(uid,type){
                 console.log("SESSION\nuser:"+UID+"\ntype: "+user+"\nAccess: "+Acc);
             break;
         }  
-         
-      
     }
     else{
         window.alert("Sorry, your browser does not support Web Storage");

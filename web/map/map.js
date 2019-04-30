@@ -2,7 +2,7 @@
 function initMap() {
   
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 11
+    zoom: 6
   });
  
   infoWindow = new google.maps.InfoWindow;
@@ -28,7 +28,6 @@ function initMap() {
 
   new setMarkers(map);
 }
-
 
 function handleLocationError(browserHasGeolocation, infoWindow, userLatLng) {
     infoWindow.setPosition(userLatLng);
