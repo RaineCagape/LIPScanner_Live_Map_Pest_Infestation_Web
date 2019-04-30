@@ -142,9 +142,7 @@ function setMarkers(map) {
           else{
             // alert('You need to be logged as a BPI admin to view infestation information.');      
             const deniedmodal = document.querySelector('#deniedModal');
-            const deniedDesc = document.querySelector('#deniedDescription');
             $(deniedmodal).show();
-            $(deniedDesc).innerHTML = 'You need to be logged as a BPI admin to view infestation information.'
             $('.modal-backdrop').show();
           }
     
