@@ -6,28 +6,6 @@ var address ='' ;
 
 
 function setMarkers(map) {  
-    //OPTION BACKEND 
-    // Database Structure (JSON Format):
-    //infestedLocations:{
-        //<UID>_<pest><mmddyy>:{
-            //E: <longitude>125.616725
-            //N: <latittude>7.065393
-            //datereported: <datestamp> Date.now();
-            //dateresolved: <datestamp> default: 000000;          
-            //pest: <pest>
-            //status: <default: unresolve / resolved >
-            //uid: <uid>"f9gGHSEErWTElcfphN2DEzVYuXC2"
-            //kX6ltkDN7rRDiEI8HlYuwllc2SC3
-        //}
-   // }
-   //user:{
-        //<UID>:{
-          //address:  <get by the mob app locator>
-          //contactNo:  <user data>
-          //name: <user data>
-          //type: <admin/user>
-        //}
-   //}
     coordinatesfirebase = firebase.database().ref().child('infestedLocations');
     coordinatesfirebase.on('child_added', snap => {
      
@@ -50,6 +28,7 @@ function setMarkers(map) {
       datereported = Number(reportFirebase);
       dateresolved = Number(resolvedFirebase);
 
+      //date format
       var month_name = function(dt){
         mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
         return mlist[dt.getMonth()];
@@ -90,27 +69,30 @@ function setMarkers(map) {
         type: 'poly',
       };
 
+      //determine resolved/unresolved conditions
       if(statusFirebase == 'resolved'){
         animate = google.maps.Animation.DROP;
         var arraydateresolved = Array.from(resolvedFirebase.toString()).map(Number);
         var getMonResolved = arraydateresolved[0]+arraydateresolved[1]+'/'+arraydateresolved[2]+arraydateresolved[3]+'/'+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
         var dm = month_name(new Date(getMonResolved));
         dateresolved = dm +' '+arraydateresolved[2]+arraydateresolved[3]+', '+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
-        resolvedon = ' on '+dateresolved+'';
+        resolvedon = ' on '+dateresolved+'<br><br><button class="btn btn-sm btn-view" onclick="#">View Details</button>';
       }
       else{
         animate = google.maps.Animation.BOUNCE;
-        resolvedon ='';
+        resolvedon = '<br><br><button class="btn btn-sm btn-resolve" onclick="#">Resolved Infestation</button>';
       }
-  
-      var marker = new google.maps.Marker({ //Observe heree!!
+      
+      //Set infestation markers
+      var marker = new google.maps.Marker({ 
         position: {lat: lat, lng: long},
         map: map,
         icon: image,
         animation: animate,
       });
       
-        var infowindow = new google.maps.InfoWindow;
+      //Set InfoWindow 
+      var infowindow = new google.maps.InfoWindow;
 
         infowindow.setContent('<div id="content">'+
           '<div id="bodyContent"><br>'+
@@ -118,10 +100,11 @@ function setMarkers(map) {
           '<p><b>Address: </b>'+address +'<br>'+
           '<b>Contact Number: </b> '+contact+'<br><br>'+
           'Infested by '+ pestFirebase +' on '+ datereported +'<br>'+
-          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p> '+
+          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p>'+
           '</div>'+
           '</div>');
 
+        //Limit InfoWindow Viewing
       google.maps.event.addListener(marker, 'click', function() {
         access = sessionStorage.getItem("Access");
         console.log('InfoWindow Access: '+access);
@@ -134,10 +117,7 @@ function setMarkers(map) {
             $(deniedmodal).show();
             $('.modal-backdrop').show();
           }
-    
-        }); 
-        
-      // })
+      }); 
 
     })
  

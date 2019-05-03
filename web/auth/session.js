@@ -13,7 +13,10 @@ function getUser(uid,type){
                 document.querySelector('#log-out').style.display = 'block';
                 document.querySelector('#logging-in').style.display = 'none';
                 document.querySelector('#log-in').style.display = 'none';
-                document.querySelector('#logged-in').style.display ='block';   
+                document.querySelector('#logged-in').style.display ='block'; 
+                var firstName = sessionStorage.getItem("firstName");
+                var lastName = sessionStorage.getItem("lastName");
+                document.querySelector('#logged-in').innerHTML='<b>Welcome! '+firstName +' '+ lastName + '</b>';   
                 Acc = sessionStorage.getItem("Access");
                 console.log("SESSION\nuser:"+UID+"\ntype: "+user+"\nAccess: "+Acc);
             break;
@@ -22,12 +25,16 @@ function getUser(uid,type){
                 const deniedmodal = document.querySelector('#deniedModal');
                 $(deniedmodal).show();
                 $('.modal-backdrop').show();
-                sessionStorage.setItem("Access",null);             
+                sessionStorage.setItem("Access",null); 
+                sessionStorage.setItem("firstName", null);
+                sessionStorage.setItem("lastName",null);            
                 Acc = sessionStorage.getItem("Access");
                 console.log("SESSION\nuser:"+UID+"\ntype: "+user+"\nAccess: "+Acc);
             break;
             default :
                 sessionStorage.setItem("Access",null);
+                sessionStorage.setItem("firstName", null);
+                sessionStorage.setItem("lastName",null);
                 Acc = sessionStorage.getItem("Access");
                 console.log("SESSION\nuser:"+UID+"\ntype: "+user+"\nAccess: "+Acc);
             break;
@@ -43,6 +50,8 @@ function clearSession(){
     sessionStorage.setItem("userType", null);
     sessionStorage.setItem("uid", null);
     sessionStorage.setItem("Access",null);
+    sessionStorage.setItem("firstName", null);
+    sessionStorage.setItem("lastName",null);
     var getType =   sessionStorage.getItem("userType");
     var getUid =   sessionStorage.getItem("uid");
     var getAccess =  sessionStorage.getItem("Access");

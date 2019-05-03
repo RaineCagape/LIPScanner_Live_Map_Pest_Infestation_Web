@@ -8,6 +8,10 @@ auth.onAuthStateChanged(firebaseUser => {
         userUID = user.uid;
         database.collection('user').doc(userUID).get().then( doc => {
             var userType = doc.data().type;
+            var userfirstName = doc.data().firstName;
+            var userlastName = doc.data().lastName;
+            sessionStorage.setItem("firstName", userfirstName);
+            sessionStorage.setItem("lastName", userlastName);
             getUser(userUID,userType);
         });
        }
