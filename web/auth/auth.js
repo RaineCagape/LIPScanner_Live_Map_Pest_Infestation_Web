@@ -2,14 +2,13 @@ const auth = firebase.auth();
 auth.onAuthStateChanged(firebaseUser => {
   if(firebaseUser){
       var user = firebase.auth().currentUser;
-      var database = firebase.database();   
-      var sType, userUID;
+      var database = firebase.firestore();
+      var userUID;
       if(user!=null){
         userUID = user.uid;
-        database.ref('/user/'+ userUID).once('value', snapshot => {
-          var userType = snapshot.val().type;
-           sType = String(userType);
-          getUser(userUID,sType);
+        database.collection('user').doc(userUID).get().then( doc => {
+            var userType = doc.data().type;
+            getUser(userUID,userType);
         });
        }
        else{
