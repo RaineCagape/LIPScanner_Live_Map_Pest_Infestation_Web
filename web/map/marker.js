@@ -2,7 +2,6 @@ var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
 var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var statusFirebase, stats, animate, nameFirebase, name, userfirebase, addressFirebase, address;
 var contactFirebase, contact, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
-var uid, uidFirebase;
 var address ='' ;
 
 
@@ -35,40 +34,31 @@ function setMarkers(map) {
       pestFirebase = snap.child('pest').val();
       latFirebase = snap.child('N').val();
       longFirebase = snap.child('E').val();
+      nameFirebase = snap.child('name').val();
+      addressFirebase = snap.child('address').val();
+      contactFirebase = snap.child('contact').val();
       statusFirebase = snap.child('status').val();
       reportFirebase = snap.child('datereported').val();
       resolvedFirebase = snap.child('dateresolved').val();
-      uidFirebase = snap.child('uid').val();
   
       lat = Number(latFirebase);
       long = Number(longFirebase);
       pest = String(pestFirebase);
-      uid = Number(uidFirebase);
-      // datereported = Number(reportFirebase);
-      // dateresolved = Number(resolvedFirebase);
+      name = String(nameFirebase);
+      address = String(addressFirebase);
+      contact = Number(contactFirebase);
+      datereported = Number(reportFirebase);
+      dateresolved = Number(resolvedFirebase);
 
-      
-        userfirebase = firebase.database().ref('/user/'+ uid);
-        userfirebase.once('value', snapshot => {
-
-          // nameFirebase = snapshot.val().name;
-          // addressFirebase = snapshot.val().address;
-          // contactFirebase = snapshot.val().contactNo;
-
-          name = String(nameFirebase);
-          address = String(addressFirebase);
-          contact = Number(contactFirebase);
-        })
-     
-    var month_name = function(dt){
-      mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-      return mlist[dt.getMonth()];
-    };
+      var month_name = function(dt){
+        mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+        return mlist[dt.getMonth()];
+      };
     
-     var arraydatereported = Array.from(reportFirebase.toString()).map(Number);
-     var getMonReport = arraydatereported[0]+arraydatereported[1]+'/'+arraydatereported[2]+arraydatereported[3]+'/'+arraydatereported[4]+arraydatereported[5]+arraydatereported[6]+arraydatereported[7];
-     var d = month_name(new Date(getMonReport));
-     datereported = d +' '+arraydatereported[2]+arraydatereported[3]+', '+arraydatereported[4]+arraydatereported[5]+arraydatereported[6]+arraydatereported[7];
+      var arraydatereported = Array.from(reportFirebase.toString()).map(Number);
+      var getMonReport = arraydatereported[0]+arraydatereported[1]+'/'+arraydatereported[2]+arraydatereported[3]+'/'+arraydatereported[4]+arraydatereported[5]+arraydatereported[6]+arraydatereported[7];
+      var d = month_name(new Date(getMonReport));
+      datereported = d +' '+arraydatereported[2]+arraydatereported[3]+', '+arraydatereported[4]+arraydatereported[5]+arraydatereported[6]+arraydatereported[7];
 
       //for icon filter
       filter = pest;
@@ -121,7 +111,6 @@ function setMarkers(map) {
       });
       
         var infowindow = new google.maps.InfoWindow;
-
 
         infowindow.setContent('<div id="content">'+
           '<div id="bodyContent"><br>'+
