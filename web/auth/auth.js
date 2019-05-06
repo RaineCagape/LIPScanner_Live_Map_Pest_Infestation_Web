@@ -22,6 +22,7 @@ auth.onAuthStateChanged(firebaseUser => {
   }
   else{
       document.querySelector('#logging-in').style.display = 'block';
+      document.querySelector('#sign-up').style.display = 'block';
       document.querySelector('#logged-in').style.display = 'none';
       document.querySelector('#log-out').style.display = 'none';
       document.querySelector('#log-in').style.display = 'block';

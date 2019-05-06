@@ -60,7 +60,13 @@
 }
 
 .log-in{
-    /* margin-top: -10px; */
+    margin-left: -60px;
+    background-color: #ffffff;
+}
+
+.sign-up{
+    margin-top: -34px;
+    margin-left: 20px;
     background-color: #ffffff;
 }
 

@@ -32,14 +32,17 @@
         <h6 id='logging-in' style="display: none" >BPI admin?</h6>
         <button class="btn log-in" id='log-in' style="display: none" type="submit" data-toggle="modal" data-target="#loginModal">
           <b>LOG IN</b>
-      </button>
-      <h6 id='logged-in' style="display: none" >
-        <b>Welcome! admin user</b>
-      </h6>
-        <button class="btn log-out" id='log-out' type="submit" style="display: none" data-toggle="modal" data-target="#logoutModal">
-          <b>LOG OUT</b>
-        </button>   
-    </div>
+        </button>
+        <button class="btn sign-up" id='sign-up' style="display: none" type="submit" data-toggle="modal" data-target="#signupModal">
+          <b>SIGN UP</b>
+        </button>
+        <h6 id='logged-in' style="display: none" >
+          <b>Welcome! admin user</b>
+        </h6>
+          <button class="btn log-out" id='log-out' type="submit" style="display: none" data-toggle="modal" data-target="#logoutModal">
+            <b>LOG OUT</b>
+          </button>   
+      </div>
   </header>
 
   <body>
@@ -130,6 +133,7 @@
         </div>
       </div> 
   </div>
+
     <!-- Denied Modal -->
     <div class="modal " id="deniedModal" role="dialog">
       <div class="modal-dialog">
@@ -149,6 +153,37 @@
         </div>
       </div> 
   </div>
+
+   <!-- signup Modal -->
+   <div class="modal fade" id="signupModal" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header modal-up">
+              <h4 class="modal-title">Sign-In </h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <form id='signupForm'>
+                  <label for="signupDescription" id="signupDescription">For BPI users only. The created account will be verified by the sector.</label>
+                  <br> <br>
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+                    <small id='email-placeholder' style="display: none; color: #f33c0e;"></small>
+                  </div>
+                  <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="password" required>
+                    <small id='error-placeholder' style="color: #f33c0e;"></small>
+                  </div>
+                  <button type="submit" id='btn-create'  class="btn btn-create">Create Account</button>
+                </form>
+          </div>
+        </div>
+      </div> 
+  </div>
+
   
 
   <script src="auth/auth.js"></script>

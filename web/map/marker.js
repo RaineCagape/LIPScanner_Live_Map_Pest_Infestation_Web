@@ -1,7 +1,7 @@
 var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
 var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var statusFirebase, stats, animate, nameFirebase, name, userfirebase, addressFirebase, address;
-var contactFirebase, contact, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
+var contactFirebase, contact, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
 var address ='' ;
 
 
@@ -9,6 +9,7 @@ function setMarkers(map) {
     coordinatesfirebase = firebase.database().ref().child('infestedLocations');
     coordinatesfirebase.on('child_added', snap => {
      
+      infestationId = snap.key; 
       pestFirebase = snap.child('pest').val();
       latFirebase = snap.child('N').val();
       longFirebase = snap.child('E').val();
@@ -18,6 +19,7 @@ function setMarkers(map) {
       statusFirebase = snap.child('status').val();
       reportFirebase = snap.child('datereported').val();
       resolvedFirebase = snap.child('dateresolved').val();
+      
   
       lat = Number(latFirebase);
       long = Number(longFirebase);
@@ -76,7 +78,7 @@ function setMarkers(map) {
         var getMonResolved = arraydateresolved[0]+arraydateresolved[1]+'/'+arraydateresolved[2]+arraydateresolved[3]+'/'+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
         var dm = month_name(new Date(getMonResolved));
         dateresolved = dm +' '+arraydateresolved[2]+arraydateresolved[3]+', '+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
-        resolvedon = ' on '+dateresolved+'<br><br><button class="btn btn-sm btn-view" onclick="#">View Details</button>';
+        resolvedon = ' on '+dateresolved+'<br><br><button class="btn btn-sm btn-view" onclick="getInfoId(infestationId);" >View Details</button>';
       }
       else{
         animate = google.maps.Animation.BOUNCE;
@@ -111,8 +113,7 @@ function setMarkers(map) {
           if(access == 1){
             infowindow.open(map, marker);
           }
-          else{
-            // alert('You need to be logged as a BPI admin to view infestation information.');      
+          else{     
             const deniedmodal = document.querySelector('#deniedModal');
             $(deniedmodal).show();
             $('.modal-backdrop').show();
