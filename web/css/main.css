@@ -51,23 +51,25 @@
 }
 
 #logged-in{
+    margin-left: 85px;
     margin-top: 10px;
 }
 
 #logging-in{
     margin-top: 10px;
+    margin-left: 5px;
     /* padding-bottom: 1px; */
 }
 
 .log-in{
-    margin-left: -60px;
-    background-color: #ffffff;
+    /* margin-left: -70px; */
+    background-color:  #ffffff;
 }
 
 .sign-up{
-    margin-top: -34px;
-    margin-left: 20px;
-    background-color: #ffffff;
+    /* margin-top: -100px;
+    margin-left: 50px; */
+    background-color:  #bbf585;
 }
 
 .log-out{

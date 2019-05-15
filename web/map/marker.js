@@ -1,15 +1,21 @@
 var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
 var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var statusFirebase, stats, animate, nameFirebase, name, userfirebase, addressFirebase, address;
-var contactFirebase, contact, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
-var address ='' ;
+var resolvedbyFirebase, resolvednoteFirebase, contactFirebase, contact, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
+var address, viewInfo, resolvedby, resolvednote  = '' ;
 
+function getInfoId(id){
+  sessionStorage.setItem("infestationId", id);
+  var infestationId = sessionStorage.getItem("infestationId");
+  console.log("\n InfoWindow is Clicked! :"+infestationId);
+
+}
 
 function setMarkers(map) {  
     coordinatesfirebase = firebase.database().ref().child('infestedLocations');
     coordinatesfirebase.on('child_added', snap => {
      
-      infestationId = snap.key; 
+      infestationId = snap.child('infestationId').val(); 
       pestFirebase = snap.child('pest').val();
       latFirebase = snap.child('N').val();
       longFirebase = snap.child('E').val();
@@ -19,6 +25,8 @@ function setMarkers(map) {
       statusFirebase = snap.child('status').val();
       reportFirebase = snap.child('datereported').val();
       resolvedFirebase = snap.child('dateresolved').val();
+      resolvednoteFirebase = snap.child('resolvednote').val();
+      resolvedbyFirebase = snap.child('resolvedby').val();
       
   
       lat = Number(latFirebase);
@@ -29,6 +37,8 @@ function setMarkers(map) {
       contact = Number(contactFirebase);
       datereported = Number(reportFirebase);
       dateresolved = Number(resolvedFirebase);
+      resolvedby = String(resolvedbyFirebase);
+      resolvednote = String(resolvednoteFirebase);
 
       //date format
       var month_name = function(dt){
@@ -78,11 +88,17 @@ function setMarkers(map) {
         var getMonResolved = arraydateresolved[0]+arraydateresolved[1]+'/'+arraydateresolved[2]+arraydateresolved[3]+'/'+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
         var dm = month_name(new Date(getMonResolved));
         dateresolved = dm +' '+arraydateresolved[2]+arraydateresolved[3]+', '+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
-        resolvedon = ' on '+dateresolved+'<br><br><button class="btn btn-sm btn-view" onclick="getInfoId(infestationId);" >View Details</button>';
+        resolvedon = ' on '+dateresolved+'<br><br><b>Note: </b><br><i>&nbsp;'+resolvednote+ '</i><br><b>Resolved by: </b> '+resolvedby;
+        
+        // viewInfo = document.querySelector('#view-info');
+        // viewInfo.addEventListener('click', function(e){
+        //   getInfoId(infestationId);
+        // });
+
       }
       else{
         animate = google.maps.Animation.BOUNCE;
-        resolvedon = '<br><br><button class="btn btn-sm btn-resolve" onclick="#">Resolved Infestation</button>';
+        resolvedon =  '';
       }
       
       //Set infestation markers
@@ -101,8 +117,8 @@ function setMarkers(map) {
           '<h5>'+name+'</h5>'+
           '<p><b>Address: </b>'+address +'<br>'+
           '<b>Contact Number: </b> '+contact+'<br><br>'+
-          'Infested by '+ pestFirebase +' on '+ datereported +'<br>'+
-          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p>'+
+          '<b>Infested by</b> '+ pestFirebase +' on '+ datereported +'<br>'+
+          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p><br><button style="display:none;" class="btn btn-sm btn-resolve" id="btn-resolve" onclick="#">Resolved Infestation</button>'+
           '</div>'+
           '</div>');
 
@@ -123,5 +139,7 @@ function setMarkers(map) {
     })
  
 }
+
+
 
 

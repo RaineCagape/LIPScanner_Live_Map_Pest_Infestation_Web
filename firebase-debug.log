@@ -1,0 +1,25 @@
+[debug] [2019-05-15T21:42:01.732Z] ----------------------------------------------------------------------
+[debug] [2019-05-15T21:42:01.740Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Raine\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve
+[debug] [2019-05-15T21:42:01.741Z] CLI Version:   6.8.0
+[debug] [2019-05-15T21:42:01.741Z] Platform:      win32
+[debug] [2019-05-15T21:42:01.741Z] Node Version:  v10.15.3
+[debug] [2019-05-15T21:42:01.744Z] Time:          Thu May 16 2019 05:42:01 GMT+0800 (Taipei Standard Time)
+[debug] [2019-05-15T21:42:01.744Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-05-15T21:42:01.791Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-05-15T21:42:01.793Z] > authorizing via signed-in user
+[debug] [2019-05-15T21:42:01.793Z] [iam] checking project lipscannrdb for permissions ["firebase.projects.get"]
+[debug] [2019-05-15T21:42:01.799Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/lipscannrdb:testIamPermissions  
+
+[debug] [2019-05-15T21:42:03.379Z] <<< HTTP RESPONSE 200
+[debug] [2019-05-15T21:42:03.391Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/lipscannrdb  
+ 
+[debug] [2019-05-15T21:42:04.709Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\xampp\htdocs\Capstone\GitHub\LIPScanner_Live_Map_Pest_Infestation_Web'...
+[info] 
+[debug] [2019-05-15T21:42:04.722Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/45995102331/clients/_:getWebAppConfig  
+ 
+[debug] [2019-05-15T21:42:05.938Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: web
+[info] +  hosting: Local server: http://localhost:5000

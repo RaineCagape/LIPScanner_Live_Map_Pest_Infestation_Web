@@ -10,10 +10,10 @@ function getUser(uid,type){
         switch(Type) {
             case 'admin':
                 sessionStorage.setItem("Access",1);
-                document.querySelector('#log-out').style.display = 'block';
+                document.querySelector('#log-out').style.display = 'inline';
                 document.querySelector('#logging-in').style.display = 'none';
                 document.querySelector('#log-in').style.display = 'none';
-                document.querySelector('#sign-up').style.display = 'none';
+                document.querySelector('#sign-up').style.display = 'inline';
                 document.querySelector('#logged-in').style.display ='block'; 
                 var firstName = sessionStorage.getItem("firstName");
                 var lastName = sessionStorage.getItem("lastName");
@@ -59,9 +59,3 @@ function clearSession(){
     console.log("SESSION\nuser:"+getUid+"\ntype: "+getType+"\nAccess: "+getAccess);
 }
 
-function getInfoId(id){
-    sessionStorage.setItem("infestationId", id);
-    var infestationId = sessionStorage.getItem("infestationId");
-    console.log("\n InfoWindow is Clicked! :"+infestationId);
-
-}
