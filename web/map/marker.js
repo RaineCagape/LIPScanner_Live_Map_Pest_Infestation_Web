@@ -3,6 +3,7 @@ var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var statusFirebase, stats, animate, nameFirebase, name, userfirebase, addressFirebase, address;
 var resolvedbyFirebase, resolvednoteFirebase, contactFirebase, contact, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
 var address, viewInfo, resolvedby, resolvednote  = '' ;
+var isClicked = false;
 
 function getInfoId(id){
   sessionStorage.setItem("infestationId", id);
@@ -99,7 +100,16 @@ function setMarkers(map) {
       }
       else{
         animate = google.maps.Animation.BOUNCE;
-        resolvedon =  '<br> ID: '+infestationId;
+        resolvedon =  '<br> ID: '+infestationId+'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve">Resolved Infestation</button>';
+        if($('#btn-resolve').length > 0){
+          getInfoId(infestationId);
+        }
+        // $(document).ready(function(){
+          //jquery
+          // if($('#btn-resolve').exists()){
+          //     getInfoId(infestationId);
+          // }
+      // });
       }
       
       //Set infestation markers
@@ -119,7 +129,7 @@ function setMarkers(map) {
           '<p><b>Address: </b>'+address +'<br>'+
           '<b>Contact Number: </b> '+contact+'<br><br>'+
           '<b>Infested by</b> '+ pestFirebase +' on '+ datereported +'<br>'+
-          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve" onclick="#">Resolved Infestation</button>'+
+          '<b>Status: </b>'+ statusFirebase + resolvedon +
           '</div>'+
           '</div>');
 
@@ -129,7 +139,6 @@ function setMarkers(map) {
         console.log('InfoWindow Access: '+access);
           if(access == 1){
             infowindow.open(map, marker);
-            console.log('Infested ID: '+datereported);
           }
           else{     
             const deniedmodal = document.querySelector('#deniedModal');
