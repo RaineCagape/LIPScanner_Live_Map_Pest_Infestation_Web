@@ -53,30 +53,33 @@
       <div id="content">
         <div class="row">
           <div class="sidebar">
-            <button class="accordion" >Options</button>
+            <button class="accordion" style="text-align: center" ><h4><b>LEGEND</b></h4></button>
             <form action="#" class="optionForm" id="optionForm" method="post" >
-              <fieldset>
-                <div class="panel" id="panel1">
-                  PEST:  <br>
-                    &nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All">&nbsp;  All<br>
-                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer">
+                <div class="panel" id="panel">
+                  PEST:  <br><br>
+                    <!-- &nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All"> &nbsp;  All<br>-->
+                    <!-- &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer"> -->
                       <img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>
-                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mussel Scale Insect">
+                    <!-- &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mussel Scale Insect"> -->
                       <img src="http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png" height="15" width="18">&nbsp; Mussel Scale Insect<br>
-                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Twig Borer">
+                    <!-- &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Twig Borer"> -->
                       <img src="http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png" height="15" width="18">&nbsp; Twig Borer<br>
-                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mealy Bug">
+                    <!-- &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mealy Bug"> -->
                       <img src="http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png" height="15" width="18">&nbsp; Mealy Bug<br>
-                    &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Aphid">
+                    <!-- &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Aphid"> -->
                       <img src="http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png" height="15" width="18">&nbsp; Aphid<br>
-                  <!-- DATE:
+                      <br><br>
+                     INFESTATION STATUS:  <br><br>
+                      <img src="https://www.picgifs.com/graphics/p/pushpin/graphics-pushpin-531558.gif" border="0" alt="animated-pushpin-image-0026" height="35" width="30" /></a>&nbsp; Unresolve<br>
+                      <br><img src="http://www.animatedimages.org/data/media/1471/animated-pushpin-image-0028.jpg" style="transform: scaleX(-1)" border="0" alt="animated-pushpin-image-0028" height="35" width="30" /></a>&nbsp; Resolved
+
+                      <!-- DATE:
                     <br> &nbsp;From &nbsp; 
                       <input type="date" name="dateStart" id="option">
                       <br>&nbsp; To &nbsp; &nbsp; &nbsp; 
                       <input type="date" name="dateEnd" id="option"> &nbsp; -->
-                  <button class="btn" id="view" onclick="setupClickListener();" name="view">VIEW</button>
+                  <!-- <button class="btn" id="view" onclick="setupClickListener();" name="view">VIEW</button> -->
                 </div>
-              </fieldset>
             </form>
           </div>
           <div class="col-sm map-container">

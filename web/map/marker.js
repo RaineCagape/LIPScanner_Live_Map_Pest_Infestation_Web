@@ -28,6 +28,7 @@ function setMarkers(map) {
       resolvednoteFirebase = snap.child('resolvednote').val();
       resolvedbyFirebase = snap.child('resolvedby').val();
       
+      
   
       lat = Number(latFirebase);
       long = Number(longFirebase);
@@ -98,7 +99,7 @@ function setMarkers(map) {
       }
       else{
         animate = google.maps.Animation.BOUNCE;
-        resolvedon =  '';
+        resolvedon =  '<br> ID: '+infestationId;
       }
       
       //Set infestation markers
@@ -118,7 +119,7 @@ function setMarkers(map) {
           '<p><b>Address: </b>'+address +'<br>'+
           '<b>Contact Number: </b> '+contact+'<br><br>'+
           '<b>Infested by</b> '+ pestFirebase +' on '+ datereported +'<br>'+
-          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p><br><button style="display:none;" class="btn btn-sm btn-resolve" id="btn-resolve" onclick="#">Resolved Infestation</button>'+
+          '<b>Status: </b>'+ statusFirebase + resolvedon +'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve" onclick="#">Resolved Infestation</button>'+
           '</div>'+
           '</div>');
 
@@ -128,6 +129,7 @@ function setMarkers(map) {
         console.log('InfoWindow Access: '+access);
           if(access == 1){
             infowindow.open(map, marker);
+            console.log('Infested ID: '+datereported);
           }
           else{     
             const deniedmodal = document.querySelector('#deniedModal');

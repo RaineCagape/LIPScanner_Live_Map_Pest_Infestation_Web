@@ -19,7 +19,7 @@
 }
 
 .head {
-    background: #F5DA85;
+    background: #93db50;
     font-size: 25px;
     bottom: 0px;
 	min-height: 70px;
@@ -29,7 +29,7 @@
 }
 
 .under {
-    background: #F5DA85;
+    background: #93db50;
     position: fixed;
     font-size: 12px;
     bottom: 0px;
@@ -39,11 +39,12 @@
 }
 
 #map {
-	height: 100%;
+    height: 580px;
 }
 
 .map-container {
-	height: 100vh;
+    height: 580px;
+    /* width: 100px; */
 }
 
 .float-right{

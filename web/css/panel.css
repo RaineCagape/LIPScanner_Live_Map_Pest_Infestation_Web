@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+TC');
 
+
 .sidebar {
     font-family: 'Noto Sans TC', sans-serif;
     font-size: 15px;
@@ -20,31 +21,30 @@
   transition: 0.4s;
   background-color: #ffffff;
 }
-
+/* 
 .panel {
   padding: 0 18px;
   display: block;
   overflow: hidden;
-	font-size: 13px;
-}
+  font-size: 13px;
+  background-color: #bbf585;
+} */
 
 #option{
 	font-size: 10px;
 	width: 100px;
-	height: 23px;
+	height: 43px;
   margin-bottom: 5px;
   
 }
 
-#panel1{
-	height:260px; 
+#panel{
+  height:500px;
   padding: 10px;
   background-color: #bbf585;
 }
-#panel2{
-	height:228px; 
-	overflow-y: scroll;
-}
+
+
 #view{
   font-size: 12px; 
   padding: 5px 25px 10px 25px;
