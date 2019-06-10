@@ -7,8 +7,8 @@ auth.onAuthStateChanged(firebaseUser => {
       var userUID;
       if(user!=null){
         userUID = user.uid;
-        database.collection('user').doc(userUID).get().then( doc => {
-            var userType = doc.data().type;
+        database.collection('users').doc(userUID).get().then( doc => {
+            var userType = doc.data().userType;
             var userfirstName = doc.data().firstName;
             var userlastName = doc.data().lastName;
             sessionStorage.setItem("firstName", userfirstName);
@@ -85,11 +85,11 @@ signupForm.addEventListener('submit',(e) => {
       document.querySelector('#signuperror-placeholder').innerHTML = "Can't create account. There's something wrong.";
     }
     else{
-      database.collection('user').doc(createdUID).set({
+      database.collection('users').doc(createdUID).set({
         firstName: firstname,
         lastName: lastname,
         contact: contact,
-        type: 'admin'
+        userType: 'admin'
       }).then( user => {      
         signupForm.reset();
         const signupmodal = document.querySelector('#signupModal');
@@ -118,6 +118,9 @@ signupForm.addEventListener('submit',(e) => {
     }
      document.querySelector('#signuperror-placeholder').innerHTML = "*"+errorMessage+" <br>";
   })
+  
+  // document.querySelector('#sign-up').style.display = 'inline';
+  // document.querySelector('#log-out').style.display = 'inline';
 });
 
 const logout = document.querySelector('#btn-logout');

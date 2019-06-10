@@ -12,53 +12,70 @@ function getInfoId(id){
 }
 
 function setMarkers(map) {  
-    coordinatesfirebase = firebase.database().ref().child('infestedLocations');
+    coordinatesfirebase = firebase.database().ref().child('infestation');
     coordinatesfirebase.on('child_added', snap => {
      
-      infestationId = snap.child('infestationId').val(); 
+      // infestationId = snap.key; //child('infestationId').val(); 
+      reportFirebase = snap.child('datetime').val();
+      latFirebase = snap.child('latitude').val();
+      longFirebase = snap.child('longitude').val();
       pestFirebase = snap.child('pest').val();
-      latFirebase = snap.child('N').val();
-      longFirebase = snap.child('E').val();
-      nameFirebase = snap.child('name').val();
-      addressFirebase = snap.child('address').val();
-      contactFirebase = snap.child('contact').val();
+      nameFirebase = snap.child('reporter').val();
       statusFirebase = snap.child('status').val();
-      reportFirebase = snap.child('datereported').val();
-      resolvedFirebase = snap.child('dateresolved').val();
-      resolvednoteFirebase = snap.child('resolvednote').val();
-      resolvedbyFirebase = snap.child('resolvedby').val();
+
+      //change name to full name
+      addressFirebase = snap.child('address').val(); //Geocode Address
+      contactFirebase = snap.child('contact').val(); //Put contact
+      resolvedFirebase = snap.child('dateresolved').val(); //Default to 'unresolved'
+      resolvednoteFirebase = snap.child('resolvednote').val(); //Default to 'none'
+      resolvedbyFirebase = snap.child('resolvedby').val(); //Default to 'none'
       
-      
-  
+
+      datereported = Number(reportFirebase);
       lat = Number(latFirebase);
       long = Number(longFirebase);
       pest = String(pestFirebase);
       name = String(nameFirebase);
-      address = String(addressFirebase);
-      contact = Number(contactFirebase);
-      datereported = Number(reportFirebase);
-      dateresolved = Number(resolvedFirebase);
-      resolvedby = String(resolvedbyFirebase);
-      resolvednote = String(resolvednoteFirebase);
 
-      //date format
-      var month_name = function(dt){
-        mlist = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-        return mlist[dt.getMonth()];
-      };
-    
-      var arraydatereported = Array.from(reportFirebase.toString()).map(Number);
-      var getMonReport = arraydatereported[0]+arraydatereported[1]+'/'+arraydatereported[2]+arraydatereported[3]+'/'+arraydatereported[4]+arraydatereported[5]+arraydatereported[6]+arraydatereported[7];
-      var d = month_name(new Date(getMonReport));
-      datereported = d +' '+arraydatereported[2]+arraydatereported[3]+', '+arraydatereported[4]+arraydatereported[5]+arraydatereported[6]+arraydatereported[7];
 
+      if(addressFirebase = null){
+        address = 'Value Request Default';
+      }
+      else{
+        address = String(addressFirebase);
+      }
+      if(contactFirebase = null){
+        contact = 'Value Request Default';
+      }
+      else{
+        contact = Number(contactFirebase);
+      }
+      if(resolvedFirebase = null){
+        dateresolved = 'Value Request Default';
+      }
+      else{
+        dateresolved = Number(resolvedFirebase);
+      }
+      if(resolvednoteFirebase = null){
+        resolvednote = 'Value Request Default';
+      }
+      else{   
+       resolvednote = String(resolvednoteFirebase);
+      }
+      if(resolvedbyFirebase = null){
+        resolvedby = 'Value Request Default';
+      }
+      else{
+        resolvedby = String(resolvedbyFirebase);
+      }
+     
       //for icon filter
       filter = pest;
         switch(filter) {
           case 'Bark Borer':
             icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
           break;
-          case 'Mussel Scale Insect':
+          case 'Mussel Scale':
             icon=  'http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png';
           break;
           case 'Twig Borer':
@@ -85,10 +102,6 @@ function setMarkers(map) {
       //determine resolved/unresolved conditions
       if(statusFirebase == 'resolved'){
         animate = google.maps.Animation.DROP;
-        var arraydateresolved = Array.from(resolvedFirebase.toString()).map(Number);
-        var getMonResolved = arraydateresolved[0]+arraydateresolved[1]+'/'+arraydateresolved[2]+arraydateresolved[3]+'/'+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
-        var dm = month_name(new Date(getMonResolved));
-        dateresolved = dm +' '+arraydateresolved[2]+arraydateresolved[3]+', '+arraydateresolved[4]+arraydateresolved[5]+arraydateresolved[6]+arraydateresolved[7];
         resolvedon = ' on '+dateresolved+'<br><br><b>Note: </b><br><i>&nbsp;'+resolvednote+ '</i><br><b>Resolved by: </b> '+resolvedby;
         
         // viewInfo = document.querySelector('#view-info');
@@ -107,12 +120,7 @@ function setMarkers(map) {
             getInfoId(infestationId);
           });
         }
-        // $(document).ready(function(){
-          //jquery
-          // if($('#btn-resolve').exists()){
-          //     getInfoId(infestationId);
-          // }
-      // });
+       
       }
       
       //Set infestation markers
@@ -128,7 +136,7 @@ function setMarkers(map) {
 
         infowindow.setContent('<div id="content">'+
           '<div id="bodyContent"><br>'+
-          '<h5>'+name+'</h5>'+
+          '<h5>Farmer:</h5> <h6>'+name+'</h6><br>'+
           '<p><b>Address: </b>'+address +'<br>'+
           '<b>Contact Number: </b> '+contact+'<br><br>'+
           '<b>Infested by</b> '+ pestFirebase +' on '+ datereported +'<br>'+
