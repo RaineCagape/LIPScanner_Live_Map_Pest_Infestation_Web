@@ -1,5 +1,5 @@
 {
   "projects": {
-    "use": "lipscannrdb"
+    "default": "lpscannr2019"
   }
 }

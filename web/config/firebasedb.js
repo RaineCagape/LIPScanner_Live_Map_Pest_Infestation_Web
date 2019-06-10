@@ -1,11 +1,10 @@
   // Initialize Firebase
   var config = {
-    apiKey: "AIzaSyC6Jrt51yER1E7jujDfLGjXimGrMjquWQs",
-    authDomain: "lipscannrdb.firebaseapp.com",
-    databaseURL: "https://lipscannrdb.firebaseio.com",
-    projectId: "lipscannrdb",
-    storageBucket: "lipscannrdb.appspot.com",
-    messagingSenderId: "45995102331"
+    apiKey: "AIzaSyA2s421PkQrgwnr8-xUmFQO5tHNZUt50gk",
+    authDomain: "lpscannr2019.firebaseapp.com",
+    databaseURL: "https://lpscannr2019.firebaseio.com",
+    projectId: "lpscannr2019", 
+    storageBucket: "lpscannr2019.appspot.com",
   };
   firebase.initializeApp(config);
   

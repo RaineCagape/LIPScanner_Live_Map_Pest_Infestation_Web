@@ -3,7 +3,6 @@ var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var statusFirebase, stats, animate, nameFirebase, name, userfirebase, addressFirebase, address;
 var resolvedbyFirebase, resolvednoteFirebase, contactFirebase, contact, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
 var address, viewInfo, resolvedby, resolvednote  = '' ;
-var isClicked = false;
 
 function getInfoId(id){
   sessionStorage.setItem("infestationId", id);
@@ -102,7 +101,11 @@ function setMarkers(map) {
         animate = google.maps.Animation.BOUNCE;
         resolvedon =  '<br> ID: '+infestationId+'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve">Resolved Infestation</button>';
         if($('#btn-resolve').length > 0){
-          getInfoId(infestationId);
+          const isClicked = document.querySelector('#btn-resolve');
+          isClicked.addEventListener('click', (e) => {
+            e.preventDefault();
+            getInfoId(infestationId);
+          });
         }
         // $(document).ready(function(){
           //jquery
