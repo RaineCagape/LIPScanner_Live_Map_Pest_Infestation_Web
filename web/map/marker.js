@@ -1,8 +1,9 @@
 var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat, pest;
 var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
-var statusFirebase, stats, animate, nameFirebase, name, userfirebase, addressFirebase, address;
-var resolvedbyFirebase, resolvednoteFirebase, contactFirebase, contact, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
+var statusFirebase, stats, animate, nameFirebase, name ,reporterContact, contactNo, addressFirebase;
+var resolvedbyFirebase, resolvednoteFirebase, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
 var address, viewInfo, resolvedby, resolvednote  = '' ;
+var database = firebase.firestore();
 
 function getInfoId(id){
   sessionStorage.setItem("infestationId", id);
@@ -15,55 +16,66 @@ function setMarkers(map) {
     coordinatesfirebase = firebase.database().ref().child('infestation');
     coordinatesfirebase.on('child_added', snap => {
      
-      // infestationId = snap.key; //child('infestationId').val(); 
+      infestationId = snap.key; 
       reportFirebase = snap.child('datetime').val();
       latFirebase = snap.child('latitude').val();
       longFirebase = snap.child('longitude').val();
       pestFirebase = snap.child('pest').val();
       nameFirebase = snap.child('reporter').val();
-      statusFirebase = snap.child('status').val();
 
-      //change name to full name
-      addressFirebase = snap.child('address').val(); //Geocode Address
-      contactFirebase = snap.child('contact').val(); //Put contact
+      // addressFirebase = snap.child('address').val(); //Geocode Address
       resolvedFirebase = snap.child('dateresolved').val(); //Default to 'unresolved'
       resolvednoteFirebase = snap.child('resolvednote').val(); //Default to 'none'
       resolvedbyFirebase = snap.child('resolvedby').val(); //Default to 'none'
-      
 
-      datereported = Number(reportFirebase);
+      datereported = String(reportFirebase);
       lat = Number(latFirebase);
       long = Number(longFirebase);
       pest = String(pestFirebase);
-      name = String(nameFirebase);
 
-
-      if(addressFirebase = null){
-        address = 'Value Request Default';
-      }
-      else{
-        address = String(addressFirebase);
-      }
-      if(contactFirebase = null){
-        contact = 'Value Request Default';
-      }
-      else{
-        contact = Number(contactFirebase);
-      }
-      if(resolvedFirebase = null){
-        dateresolved = 'Value Request Default';
+      database.collection('users').doc(nameFirebase).get().then( doc => {   
+        
+        var reporterContact = doc.data().contactNo;
+        var reporterfirstName = doc.data().firstName;
+        var reporterlastName = doc.data().lastName;
+        contactNo = reporterContact;
+        name = reporterfirstName+ " "+ reporterlastName;
+      });
+      
+      var geocoder = new google.maps.Geocoder;
+      var latlng = {
+        lat: parseFloat(lat), 
+        lng: parseFloat(long)  
+      };
+      geocoder.geocode({'location': latlng}, 
+      function(results, status){
+        if(status === 'OK'){
+          if(results[0]){
+            address = results[0].formatted_address;
+          }
+          else{
+            address ='Coordinates does not exists.';
+          }
+        }
+        else{
+          address='Geocoder failed due to:'+status;
+        }
+      });
+      
+      if(resolvedFirebase == null){
+        dateresolved = ' ';
       }
       else{
         dateresolved = Number(resolvedFirebase);
       }
-      if(resolvednoteFirebase = null){
-        resolvednote = 'Value Request Default';
+      if(resolvednoteFirebase == null){
+        resolvednote = 'None';
       }
       else{   
        resolvednote = String(resolvednoteFirebase);
       }
       if(resolvedbyFirebase = null){
-        resolvedby = 'Value Request Default';
+        resolvedby = 'None';
       }
       else{
         resolvedby = String(resolvedbyFirebase);
@@ -80,12 +92,6 @@ function setMarkers(map) {
           break;
           case 'Twig Borer':
             icon= 'http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png';
-          break;
-          case 'Mealy Bug':
-            icon= 'http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png';
-          break;
-          case 'Aphid':
-            icon= 'http://maps.google.com/mapfiles/kml/pushpin/wht-pushpin.png';
           break;
       }
       
@@ -111,8 +117,9 @@ function setMarkers(map) {
 
       }
       else{
+        statusFirebase = 'Unresolved';
         animate = google.maps.Animation.BOUNCE;
-        resolvedon =  '<br> ID: '+infestationId+'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve">Resolved Infestation</button>';
+        resolvedon =  '<br> ID: '+infestationId+'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve">Resolve Infestation</button>';
         if($('#btn-resolve').length > 0){
           const isClicked = document.querySelector('#btn-resolve');
           isClicked.addEventListener('click', (e) => {
@@ -136,11 +143,11 @@ function setMarkers(map) {
 
         infowindow.setContent('<div id="content">'+
           '<div id="bodyContent"><br>'+
-          '<h5>Farmer:</h5> <h6>'+name+'</h6><br>'+
-          '<p><b>Address: </b>'+address +'<br>'+
-          '<b>Contact Number: </b> '+contact+'<br><br>'+
-          '<b>Infested by</b> '+ pestFirebase +' on '+ datereported +'<br>'+
-          '<b>Status: </b>'+ statusFirebase + resolvedon +
+          '<h5>Farmer:</h5> <h6>'+ name +'</h6><br>'+
+          '<p><b>Address: </b>'+ address +'<br>'+
+          '<b>Contact Number: </b>'+ contactNo +'<br><br>'+
+          '<b>Infested by:</b> <br>'+ pestFirebase +' on '+ datereported +'<br>'+
+          '<b>Status: </b><br>'+ statusFirebase + resolvedon +
           '</div>'+
           '</div>');
 
