@@ -8,7 +8,7 @@ function getUser(uid,type){
         user = sessionStorage.getItem("userType");
         Type = user;
         switch(Type) {
-            case 'admin':
+            case 'Admin':
                 sessionStorage.setItem("Access",1);
                 document.querySelector('#log-out').style.display = 'inline';
                 document.querySelector('#logging-in').style.display = 'none';

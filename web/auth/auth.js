@@ -88,8 +88,9 @@ signupForm.addEventListener('submit',(e) => {
       database.collection('users').doc(createdUID).set({
         firstName: firstname,
         lastName: lastname,
+        accountType: 'Email Account',
         contact: contact,
-        userType: 'admin'
+        userType: 'Admin'
       }).then( user => {      
         signupForm.reset();
         const signupmodal = document.querySelector('#signupModal');
@@ -123,6 +124,8 @@ signupForm.addEventListener('submit',(e) => {
   // document.querySelector('#log-out').style.display = 'inline';
 });
 
+
+
 const logout = document.querySelector('#btn-logout');
 logout.addEventListener('click', (e) => {
   e.preventDefault();
@@ -131,6 +134,7 @@ logout.addEventListener('click', (e) => {
     const logoutmodal = document.querySelector('#logoutModal');
     $(logoutmodal).hide();
     $('.modal-backdrop').hide();
+    window.location.reload();
   });
 });
 
