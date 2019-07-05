@@ -26,6 +26,9 @@ function markerAnimate(getStatus){
 function filterMarkers(getPest,getMarker,getStatus,info){
   $("input[name=pestpick]").change(function (e) {
     info.close();
+    if (getMarker.getAnimation() != null) {
+      getMarker.setAnimation(getMarker.getAnimation());
+    }
     var pestpicker = $("input[name=pestpick]:checked").val();
     console.log('Picked:'+pestpicker);
     if(pestpicker == 'All pest'){
@@ -42,6 +45,9 @@ function filterMarkers(getPest,getMarker,getStatus,info){
   });
   $("input[name=statuspick]").change(function (e) {
     info.close();
+    if (getMarker.getAnimation() != null) {
+      getMarker.setAnimation(getMarker.getAnimation());
+    }
     var statuspicker =$("input[name=statuspick]:checked").val();
     console.log('Picked:'+statuspicker);
     if(statuspicker == 'All status'){
