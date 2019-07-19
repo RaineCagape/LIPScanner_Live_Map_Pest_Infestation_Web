@@ -44,7 +44,11 @@
 
 .map-container {
     height: 580px;
-    /* width: 100px; */
+    padding: 0px 0px;
+}
+
+.col-sm{
+    padding: 0px;
 }
 
 .float-right{
@@ -76,4 +80,8 @@
 .log-out{
     /* margin-top: -20px; */
     background-color: #ffffff;
+}
+
+.container-fluid {
+    padding-right: 0px;
 }

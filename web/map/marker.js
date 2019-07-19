@@ -1,16 +1,39 @@
 var longFirebase, latFirebase, pestFirebase, icon, filter, long, lat;
 var coordinatesfirebase, option, access, loginmodal, desc, checkAcess;
 var statusFirebase, stats, nameFirebase, name ,reporterContact, contactNo;
-var resolvedbyFirebase, resolvednoteFirebase, infestationId, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
-var viewInfo, resolvedby, resolvednote, infoContent;
+var resolvedbyFirebase, resolvednoteFirebase, reportFirebase, datereported, resolvedFirebase, dateresolved, resolvedon;
+var viewInfo, resolvedby, resolvednote, infoContent, infestationId;
 
 var database = firebase.firestore();
 
 function getInfoId(id){
   sessionStorage.setItem("infestationId", id);
   var infestationId = sessionStorage.getItem("infestationId");
-  console.log("\n InfoWindow is Clicked! :"+infestationId);
+  console.log("\n Infestation is Clicked! :"+infestationId);
+  alert("\n Infestation is Clicked! :"+infestationId);
 
+}
+
+function createInfowindow(content,map,marker,infowindow){
+  infowindow.setContent(content);
+       //Limit InfoWindow Viewing
+    google.maps.event.addListener(marker, 'click', function() {
+      access = sessionStorage.getItem("Access");
+      console.log('InfoWindow Access: '+access);
+      if(access == 1){
+        infowindow.open(map, marker); 
+        map.setZoom(19);
+        map.setCenter(marker.getPosition());
+      }
+      else{     
+        const deniedmodal = document.querySelector('#deniedModal');
+        $(deniedmodal).show();
+        $('.modal-backdrop').show();
+      }
+    }); 
+    google.maps.event.addListener(infowindow, 'closeclick', function() {  
+      map.setZoom(14); 
+  }); 
 }
 
 function markerAnimate(getStatus){
@@ -64,48 +87,18 @@ function filterMarkers(getPest,getMarker,getStatus,info){
   });
 }
 
-function getFullName(name){
-  var fullname;
-  database.collection('users').doc(name).get().then( doc => {   
-    var reporterfirstName = doc.data().firstName;
-    var reporterlastName = doc.data().lastName;
-    fullname = reporterfirstName+ " "+ reporterlastName;
-    console.log(fullname);
-    return fullname;
-  });
-}
-// function reverseGeocode(getlatlong){
-//     var geocoder = new google.maps.Geocoder();
-//     var address;
-
-//     geocoder.geocode({'location': getlatlong}, function(res, stats){
-//       if(stats === 'OK'){
-//         if(res[0]){
-//           address = res[0].formatted_address;
-//         }
-//         else{
-//           address = 'Coordinates does not exists.';
-//         }
-//       }
-//       else{
-//        address = 'Geocoder failed due to:'+stats;
-//       }
-//     });
-//     return address;
-// }
-
 function setMarkers(map) {  
-  var pest, address, status;
+  var pest, status, fullname;
   var info =  new google.maps.InfoWindow;
   coordinatesfirebase = firebase.database().ref().child('infestation');
   coordinatesfirebase.on('child_added', snap => { 
-    infestationId = snap.key; 
+   
     reportFirebase = snap.child('datetime').val();
     latFirebase = snap.child('latitude').val();
     longFirebase = snap.child('longitude').val();
     pestFirebase = snap.child('pest').val();
     nameFirebase = snap.child('reporter').val();
-
+    infestationId = snap.key; 
     statusFirebase = snap.child('status').val(); //Default to 'unresolved'
     resolvedFirebase = snap.child('dateresolved').val(); //Default to 'unresolved'
     resolvednoteFirebase = snap.child('resolvednote').val(); //Default to 'none'
@@ -118,14 +111,12 @@ function setMarkers(map) {
     
     if(statusFirebase == null){
         status = 'unresolve';
-        // animate = google.maps.Animation.BOUNCE;
         dateresolved = ' ';
         resolvednote = 'None';
         resolvedby = 'None';
     }
     else{
       status = String(statusFirebase);
-      // animate = google.maps.Animation.DROP;
       dateresolved = String(resolvedFirebase);
       if(resolvedbyFirebase == null){
         resolvednote = "Something's wrong.";
@@ -142,7 +133,7 @@ function setMarkers(map) {
       }
     }
      
-     //for icon filter
+     //for icon color 
     filter = pest;
       switch(filter) {
         case 'Bark Borer':
@@ -166,7 +157,7 @@ function setMarkers(map) {
       type: 'poly',
     };
 
-      //determine resolved/unresolved conditions
+      //if infestation needs reolve button
     if(status == 'resolved'){
       resolvedon = ' on '+dateresolved+'<br><br><b>Note: </b><br><i>&nbsp;'+resolvednote+ '</i><br><b>Resolved by: </b> '+resolvedby;
         
@@ -176,15 +167,14 @@ function setMarkers(map) {
         // });
     }
     else{
-      resolvedon =  '<br> ID: '+infestationId+'</p><br><button class="btn btn-sm btn-resolve" id="btn-resolve">Mark Infestation as Resolved</button>';
-      // if($('#btn-resolve').length > 0){
-      //   var isClicked = document.querySelector('#btn-resolve');
-      //   isClicked.addEventListener('click', (e) => {
-      //     e.preventDefault();
+      resolvedon =  '<br> ID: '+ infestationId +'</p><br><button class="btn btn-sm btn-resolve">Mark Infestation as Resolved</button>';
+      // $('#btn-resolve').click(function () {
+      //   // var isClicked = document.querySelector('#btn-resolve');
+      //   // isClicked.addEventListener('click', (e) => {
+      //     // e.preventDefault();
       //     getInfoId(infestationId);
       //     //push data status=resolved,resolvednote,resolvedby,dateresolved 
-      //   });
-      // }   
+      // }); 
     }
 
     var marker = new google.maps.Marker({ 
@@ -194,10 +184,11 @@ function setMarkers(map) {
       animation:markerAnimate(status)
     });
     
-    filterMarkers(pestFirebase,marker,status, info);
-    
+    filterMarkers(pestFirebase,marker,status,info);
+   
     var latlng = new google.maps.LatLng(lat,long);
     var geocoder = new google.maps.Geocoder();
+    var address;
     geocoder.geocode({'location': latlng}, function(res, stats){
       if(stats == google.maps.GeocoderStatus.OK){
         if(res[1]){
@@ -213,38 +204,34 @@ function setMarkers(map) {
       }
     });
     
-    infoContent = '<div id="content">'+'<div id="bodyContent"><br>'+
-      '<h5>Farmer:</h5> <h6>'+ getFullName(nameFirebase) +'</h6><br>'+
-      '<p><b>Address: </b>'+ address +'<br>'+
-      '<b>Contact Number: </b>'+ contactNo +'<br><br>'+
-      '<b>Infested by:</b> <br>'+ pestFirebase +' on '+ datereported +'<br>'+
-      '<b>Status: </b><br>'+ status + resolvedon +
-      '</div>'+
-      '</div>';
+      database.collection('users').doc(nameFirebase).get().then( doc => {   
+        var reporterfirstName = doc.data().firstName;
+        var reporterlastName = doc.data().lastName;
+        fullname = reporterfirstName+ " "+ reporterlastName;
+        contact = doc.data().contactNo;
+        console.log(fullname);
+      
+      infoContent = '<div id="content">'+'<div id="bodyContent"><br>'+
+        '<h4>'+ fullname +'</h4>'+
+        '<p><b>Contact Number: </b><br>'+ contact +'<br>'+
+        '<b>Address: </b><br>'+ address +'<br>'+
+        '<b>Infested by:</b> <br>'+ pestFirebase +' on '+ datereported +'<br>'+
+        '<b>Status: </b>'+ status + resolvedon +
+        '</div>'+
+        '</div>';
 
-    createInfowindow(infoContent,map,marker, info);
-    // console.log('address '+ reverseGeocode(latlng,geocoder));
+      createInfowindow(infoContent,map,marker,info);
+    }); //Firestore query end
+
   }) //Firebase query end 
 
-  
 }
 
-function createInfowindow(content,map,marker,infowindow){
-  infowindow.setContent(content);
-       //Limit InfoWindow Viewing
-    google.maps.event.addListener(marker, 'click', function() {
-      access = sessionStorage.getItem("Access");
-      console.log('InfoWindow Access: '+access);
-      if(access == 1){
-        infowindow.open(map, marker);
-      }
-      else{     
-        const deniedmodal = document.querySelector('#deniedModal');
-        $(deniedmodal).show();
-        $('.modal-backdrop').show();
-      }
-    }); 
-}
+$(document).on('click', '.btn-resolve', function(){
+  getInfoId(infestationId);
+});
+
+
 
 
 
