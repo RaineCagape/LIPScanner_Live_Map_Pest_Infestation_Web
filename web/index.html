@@ -20,7 +20,9 @@
 		<script src="js/firebase-firestore.js"></script>
 		<script src="config/firebasedb.js"></script>
 	</head>
-
+	<script >
+		
+	</script>
 	<body>
 		<div id="top-alerts"></div>
 		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
@@ -54,6 +56,19 @@
 				<div class="row">
 					<div class="col-sm-2 bg-white" id="col-panel">
 						<div style="padding: 10px;">
+							<div class="pac-card" id="pac-card">
+								<br>
+								<div id="pac-container">
+									<div class="btn-group">
+										<input class="form-control" id="pac-input" type="text" placeholder="Search for Place">
+										<span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+									</div>
+									<div id="location-error"></div>
+									<span id="place-name" class="title"></span><br> 
+									<span id="place-address"></span>
+								</div>
+							</div><br>
+
 							<form action="#" class="optionForm" id="optionForm" method="post">
 								<fieldset class="mb-2" id="pestradio">
 									Pest:
@@ -317,6 +332,37 @@
 						handleLocationError(false, infoWindow, map.getCenter());
 					}
 
+					//Autosearch Complete
+					var input = document.getElementById('pac-input');
+					var searchBox = new google.maps.places.SearchBox(input);
+
+					// Bias the SearchBox results towards current map's viewport.
+					map.addListener('bounds_changed', function() {
+					searchBox.setBounds(map.getBounds());
+					});
+
+					searchBox.addListener('places_changed', function() {
+					var places = searchBox.getPlaces();
+						if (places.length == 0) {
+							return;
+						}
+						var bounds = new google.maps.LatLngBounds();
+						places.forEach(function(place) {
+							if (!place.geometry) {
+								console.log("Returned place contains no geometry");
+								return;
+							}
+							if (place.geometry.viewport) {
+								bounds.union(place.geometry.viewport);
+							} 
+							else {
+								bounds.extend(place.geometry.location);
+							}
+						});
+					map.fitBounds(bounds);
+					});
+					
+
 					//Get Infestation
 					var rdb = firebase.database().ref().child('infestation');
 					rdb.on('child_added', rshot => {
@@ -508,7 +554,7 @@
 					});
 				});
 			</script>
-			<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"></script>
+			<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&libraries=places&callback=initMap"></script>
 		</div>
 		<div class="bg-light" id="copyright">LPS Live Map &copy; 2019</div>
 	</body>
