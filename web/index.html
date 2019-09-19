@@ -1,260 +1,515 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Home | LPS Live Map</title> 
-  </head>
-  <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/panel.css">
-    <link rel="stylesheet" type="text/css" href="css/modal.css">
-    <link rel="stylesheet" type="text/css" href="css/map.css">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<head>
+		<title>LPS Live Map</title> 
+		<link rel="icon" type="image/png" href="images/logo.png">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+		<link rel="stylesheet" type="text/css" href="css/map.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase-functions.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.9.4/firebase-storage.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.11.1/firebase-firestore.js"></script>
+		<script src="js/firebase-app.js"></script>
+		<script src="js/firebase-auth.js"></script>
+		<script src="js/firebase-database.js"></script>
+		<script src="js/firebase-functions.js"></script>
+		<script src="js/firebase-storage.js"></script>
+		<script src="js/firebase-firestore.js"></script>
+		<script src="config/firebasedb.js"></script>
+	</head>
 
-    
-    <!-- <script src="config/firebaseadmin.js"></script>  -->
-    <!-- <script src="bundle.js"></script> -->
-    <script src="config/firebasedb.js"></script> 
+	<body>
+		<div id="top-alerts"></div>
+		<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+			<a class="navbar-brand" href="index.html">
+				<img id="lpslogo" src="images/logo.png">
+				<b>LPS Live Map</b>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-  <header class="head head-font">
-   <b>LIPScannr</b> Live Pest Infestation Map 
-    <h1 id="longitudePlacemat"></h1>
-    <div class="float-right">
-        <h6 id='logging-in' style="display: none" >BPI admin?</h6>
-        <button class="btn log-in" id='log-in' style="display: none" type="submit" data-toggle="modal" data-target="#loginModal">
-          <b>LOG IN</b>
-        </button>
-        <h6 id='logged-in' style="display: none" >
-          <b>Welcome! admin user</b>
-        </h6>  
-        <button class="btn sign-up" id='sign-up' style="display: none" type="submit" data-toggle="modal" data-target="#signupModal">
-          <b>CREATE ACCOUNT</b>
-        </button>
-        <button class="btn log-out" id='log-out' type="submit" style="display: none" data-toggle="modal" data-target="#logoutModal">
-          <b>LOG OUT</b>
-        </button> 
-      </div>
-  </header>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">				
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item" id="nav-signin">
+						<a class="nav-link" id="btn-signin" href="#" data-toggle="modal" data-target="#signinModal">Sign In</a>
+					</li>
+					<li class="nav-item dropdown" id="nav-dropdown-user">
+						<a class="nav-link dropdown-toggle" href="#" id="btn-user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#signupModal">Create Account</a>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#signoutModal">Sign Out</a>
+						</div>
+					</li>
+				</ul>
+  			</div>
+		</nav>
 
-  <body>
-    <div class="container-fluid">
-      <div id="content">
-        <div class="row">
-          <div class="sidebar">
-            <button class="accordion" style="text-align: center" ><h4><b>LEGEND</b></h4></button>
-                <div class="panel" id="panel">
-                  <form action="#" class="optionForm" id="optionForm" method="post" >
-                    <fieldset id="pestradio">
-                      PEST:  <br><br>
-                        &nbsp;<input type="radio" id="pestpick" name="pestpick" checked="checked" value="All pest" > &nbsp;  All Pest<br>
-                        &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Bark Borer">
-                          <img src="http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png" height="15" width="18">&nbsp; Bark Borer<br>
-                        &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Mussel Scale">
-                          <img src="http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png" height="15" width="18">&nbsp; Mussel Scale Insect<br>
-                        &nbsp;<input type="radio" id="pestpick" name="pestpick" value="Twig Borer">
-                          <img src="http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png" height="15" width="18">&nbsp; Twig Borer<br>
-                          <br><br>
-                    </fieldset>
-                    <fieldset id="statusradio">
-                      INFESTATION STATUS:  <br><br>
-                        &nbsp;<input type="radio" id="statuspick" name="statuspick" checked="checked" value="All status"> &nbsp;  All Status<br><br>
-                        &nbsp;<input type="radio" id="statuspick" name="statuspick" value="unresolve">
-                        <img src="https://www.picgifs.com/graphics/p/pushpin/graphics-pushpin-531558.gif" border="0" alt="animated-pushpin-image-0026" height="35" width="30" /></a>&nbsp; Unresolve<br>
-                        <br>&nbsp;<input type="radio" id="statuspick" name="statuspick" value="resolved">
-                        <img src="http://www.animatedimages.org/data/media/1471/animated-pushpin-image-0028.jpg" style="transform: scaleX(-1)" border="0" alt="animated-pushpin-image-0028" height="35" width="30" /></a>&nbsp; Resolved
-                    </fieldset>
-                  </form>
-                </div>
-          </div>
-          <div class="col-sm map-container">
-            <div id="map"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <!-- login Modal -->
-      <div class="modal fade" id="loginModal" role="dialog">
-        <div class="modal-dialog">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header modal-up">
-                <h4 class="modal-title">Admin Log-In</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id='loginForm'>
-                    <small for="loginDescription" id="loginDescription"></small>
-                    <div class="form-group">
-                      <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
-                      <small id='email-placeholder' style="display: none; color: #f33c0e;"></small>
-                    </div>
-                    <div class="form-group">
-                      <label for="password">Password</label>
-                      <input type="password" class="form-control" id="password" placeholder="password" required>
-                      <small id='error-placeholder' style="color: #f33c0e;"></small>
-                    </div>
-                    <button type="submit" id='btn-login'  class="btn btn-login">Log in</button>
-                  </form>
-            </div>
-          </div>
-        </div> 
-    </div>
 
-    <!-- logout Modal -->
-    <div class="modal fade" id="logoutModal" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header modal-up">
-              <h4 class="modal-title">Admin Log-out</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-              <form>
-                  <div class="form-group">
-                    <label for="logoutDescription">Are you sure you want to log-out?</label>
-                  </div>
-                  <button type="submit" id="btn-logout" class="btn btn-logout">Yes</button>
-                  <button type="submit" data-dismiss="modal" class="btn">Cancel</button>
-                </form>
-          </div>
-        </div>
-      </div> 
-  </div>
+		<div class="container-fluid">
+			<div id="content">
+				<div class="row">
+					<div class="col-sm-2 bg-white" id="col-panel">
+						<div style="padding: 10px;">
+							<form action="#" class="optionForm" id="optionForm" method="post">
+								<fieldset class="mb-2" id="pestradio">
+									Pest:
+									<select class="custom-select" id="pestpick" name="pestpick" onchange="filter()">
+										<option value="All" selected>All Pest</option>
+										<option value="Bark Borer">Bark Borer</option>
+										<option value="Mussel Scale">Mussel Scale</option>
+										<option value="Twig Borer">Twig Borer</option>
+									</select>
+								</fieldset>
+								
+								<fieldset id="statusradio">
+									Infestation Status:
+									<select class="custom-select" id="statuspick" name="statuspick" onchange="filter()">
+										<option value="All" selected>All Status</option>
+										<option value="Resolved">Resolved</option>
+										<option value="Unresolved">Unresolved</option>
+									</select>
+								</fieldset>
+							</form>
+						</div>
+					</div>
 
-    <!-- Denied Modal -->
-    <div class="modal " id="deniedModal" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header modal-up">
-              <h4 class="modal-title">Access Denied</h4>
-          </div>
-          <div class="modal-body">
-              <form>
-                  <div class="form-group">
-                    <label for="denialDescription">You need to be logged as BPI admin. Your access is limited only to live map viewing.</label>
-                  </div>
-                  <button type="submit" data-dismiss="modal" class="btn btn-ok">Ok</button>
-                </form>
-          </div>
-        </div>
-      </div> 
-  </div>
+					<div class="col-sm" id="col-map">
+						<div id="map"></div>
+					</div>
+				</div>
+			</div>
 
-   <!-- signup Modal -->
-   <div class="modal fade" id="signupModal" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header modal-up">
-              <h4 class="modal-title">Create a BPI Admin Account </h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-          <div class="modal-body">
-              <form id='signupForm'>
-                  <label for="signupDescription" id="signupDescription">The created account can access viewing of information and resolve on the infested locations.</label>
-                  <br> <small id='signuperror-placeholder' style="color: #f33c0e;"></small>
-                  <br>
-                  <div class="form-group row">
-                    <div class="col-sm-6 ">
-                      <label for="firstname">First Name</label>
-                      <input type="firstname" class="form-control" id="firstname" placeholder="Enter Firstname" required>
-                    </div>
-                    <div class="col-sm-6 ">
-                      <label for="lastname">Last Name</label>
-                      <input type="lastname" class="form-control" id="lastname" placeholder="Enter Lastname" required> 
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="contact">Contact Number</label> &nbsp; (Ex. +639123456789)
-                    <input type="tel" class="form-control" id="contact" placeholder="+639(Your 9-digit contact number)" pattern="^(\+639)\d{9}$" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email Address</label> &nbsp; (Ex. example@gmail.com)
-                    <input type="email" class="form-control" id="email" placeholder="Enter Email" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" placeholder="Enter Password" required>
-                  </div>
-                  <button type="submit" id='btn-create' class="btn btn-create">Create Account</button>
-                </form>
-          </div>
-        </div>
-      </div> 
-  </div>
+			<div class="container">
+				<!-- Sign In Modal -->
+				<form id='signinForm'>
+					<div class="modal fade" id="signinModal" role="dialog">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">Sign In</h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<div class="form-group">
+										<label for="email">Email</label>
+										<input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+									</div>
+									<div class="form-group">
+										<label for="password">Password</label>
+										<input type="password" class="form-control" id="password" placeholder="password" required>
+									</div>
+		
+									<small id='email-placeholder' class="text-danger"></small>
+									<small id='error-placeholder' class="text-danger"></small>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+									<button type="submit" id='btn-login'  class="btn btn-primary">Sign In</button>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</form>
 
-  <!-- Account Created Modal -->
-  <div class="modal " id="accountcreatedModal" role="dialog">
-    <div class="modal-dialog">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header modal-up">
-            <h4 class="modal-title">Account Created!</h4>
-        </div>
-        <div class="modal-body">
-            <form>
-                <div class="form-group">
-                  <label for="createdDescription">The account has successfully created!</label>
-                  <br><br>
-                  <label for="user-info">User: </label>&nbsp;<label id="userlabel"></label><br>
-                  <label for="email-info">Email: </label>&nbsp;<label id="emaillabel"></label>
-                </div>
-                <button type="submit" data-dismiss="modal" class="btn btn-ok">Ok</button>
-              </form>
-        </div>
-      </div>
-    </div> 
-</div>
+				<!-- Resolve Modal -->
+				<form id='resolveForm'>
+					<div class="modal fade" id="resolveModal" role="dialog">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">Resolve</h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<div class="form-group" id="getID"></div>
+									<div class="form-group">
+										<label for="Note">Note</label>
+										<textarea class="form-control" id="note" rows="8" placeholder="Enter a Note" required></textarea>
+									</div>
+									<small id='signuperror-placeholder' class="text-danger"></small>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-danger mr-auto" data-dismiss="modal">Cancel</button>
+									<button type="button" id='btn-resnow'  class="btn btn-primary">Resolve Now</button>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</form>
+		
+				<!-- Sign Out Modal -->
+				<div class="modal fade" id="signoutModal" role="dialog">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Sign Out</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								Are you sure you want to sign out your account?
+							</div>
+							<div class="modal-footer">
+								<button type="button" id="btn-signout" class="btn btn-primary">Yes</button>
+								<button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+							</div>
+						</div>
+					</div> 
+				</div>
+		
+				<!-- Sign Up Modal -->
+				<form id='signupForm'>
+					<div class="modal fade" id="signupModal" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title">Create a BPI Admin Account </h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
+								<div class="modal-body">
+									<p class="text-justify">The created account can access viewing of information and resolve on the infested locations.</p>
+									
+									<div class="form-group row">
+										<div class="col-sm-6 ">
+											<label for="firstname">First Name</label>
+											<input type="firstname" class="form-control" id="firstname" placeholder="Enter Firstname" required>
+										</div>
+										<div class="col-sm-6 ">
+											<label for="lastname">Last Name</label>
+											<input type="lastname" class="form-control" id="lastname" placeholder="Enter Lastname" required> 
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="contact">Contact Number (e.g. +639123456789)</label>
+										<input type="tel" class="form-control" id="contact" placeholder="+63(Your 10-digit contact number)" pattern="^(\+639)\d{9}$" required>
+									</div>
+									<div class="form-group">
+										<label for="email">Email Address (e.g. example@gmail.com)</label>
+										<input type="email" class="form-control" id="email" placeholder="Enter Email" required>
+									</div>
+									<div class="form-group">
+										<label for="password">Password</label>
+										<input type="password" class="form-control" id="password" placeholder="Enter Password" required>
+									</div>
+		
+									<small id='signuperror-placeholder' class="text-danger"></small>
+								</div>
+								<div class="modal-footer">
+									<button type="submit" id='btn-create' class="btn btn-primary">Create</button>
+									<button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div> 
+					</div>
+				</form>
+			
+				<!-- Account Created Modal -->
+				<div class="modal " id="accountcreatedModal" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Account Created</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+							<div class="modal-body">
+								<h5 class="mb-0 text-center" id="userlabel"></h5>
+								<p class="mb-3 text-center"><small>Display Name</small></p>
+								<h5 class="mb-0 text-center" id="emaillabel"></h5>
+								<p class="mb-0 text-center"><small>Email Address</small></p>
+							</div>
+							<div class="modal-footer">
+								<button type="submit" data-dismiss="modal" class="btn btn-danger">Close</button>
+							</div>
+						</div>
+					</div> 
+				</div>
+			</div>
 
-<!-- Resolve Modal -->
-<div class="modal fade" id="resolveModal" role="dialog">
-  <div class="modal-dialog">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header modal-up">
-          <h4 class="modal-title">Resolve Infestation</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-      <div class="modal-body">
-          <form id='resolveForm'>
-              <small for="resolveDescription" id="resolveDescription"></small>
-              <div class="form-group">
-                <label for="note">Note:</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-              </div>
-              <button type="submit" id='btn-send-resolve' class="btn btn-send-resolve">Resolve</button>
-            </form>
-      </div>
-    </div>
-  </div> 
-</div>
+			<script src="auth/auth.js"></script>
+			<script src="auth/session.js"></script>
+			<!-- <script src="map/map.js"></script>
+			<script src="map/marker.js"></script> -->
+			<script>
+				var markers = [];
 
-  <script src="auth/auth.js"></script>
-  <script src="auth/session.js"></script>
-  <script src="map/map.js"></script>
-  <script src="map/marker.js"></script>
-  <script async defer
-   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"></script>
-  </div>
+				function filter() {
+					var x = document.getElementById("pestpick").value;
+					var y = document.getElementById("statuspick").value;
 
-  </body>
-  <footer class="under">
-		LIPScannr Live Pest Infestation Map 2019
-	</footer>
+					filterPick(x,y);
+				}
+
+				function filterPick(gpest,gstat){
+					if(gpest == 'All' && gstat == 'All'){
+						for(i = 0; i < markers.length; i++){
+							markers[i].setVisible(true);
+							markers[i].setAnimation(markers[i].getAnimation());
+						}
+					}else if(gpest == 'All' && gstat != 'All'){
+						for(i = 0; i < markers.length; i++){
+							if(markers[i].status == gstat) {
+								markers[i].setVisible(true);
+								markers[i].setAnimation(markers[i].getAnimation());
+							}else{
+								markers[i].setVisible(false);
+							}
+						}
+					}else if(gpest != 'All' && gstat == 'All'){
+						for(i = 0; i < markers.length; i++){
+							if(markers[i].category == gpest) {
+								markers[i].setVisible(true);
+								markers[i].setAnimation(markers[i].getAnimation());
+							}else{
+								markers[i].setVisible(false);
+							}
+						}
+					}else if(gpest != 'All' && gstat != 'All'){
+						for(i = 0; i < markers.length; i++){
+							if(markers[i].category == gpest && markers[i].status == gstat) {
+								markers[i].setVisible(true);
+								markers[i].setAnimation(markers[i].getAnimation());
+							}else{
+								markers[i].setVisible(false);
+							}
+						}
+					}
+				}
+
+				var lastOpened;
+
+				function closeLastOpened(){
+					if(lastOpened){
+						lastOpened.close();
+					}
+				}
+
+				function initMap() {
+					var options = {
+						zoom: 8
+					}
+
+					//New Map
+					var map = new google.maps.Map(document.getElementById('map'), options);
+
+					//Get User Location
+					if (navigator.geolocation) {
+						navigator.geolocation.getCurrentPosition(function(position) {
+							var userLatLng = {
+								lat: position.coords.latitude,
+								lng: position.coords.longitude
+							};
+							
+							var location = new google.maps.Marker({
+								position: {lat:position.coords.latitude, lng: position.coords.longitude},
+								map: map
+							});
+							
+							map.setCenter(userLatLng);
+						}, 
+						function() {
+							handleLocationError(true, infoWindow, map.getCenter());
+						});
+					} else {
+						// if Browser doesn't support Geolocation
+						handleLocationError(false, infoWindow, map.getCenter());
+					}
+
+					//Get Infestation
+					var rdb = firebase.database().ref().child('infestation');
+					rdb.on('child_added', rshot => {
+						var infestationId = rshot.key;
+						var dateresolved = rshot.child('dateresolved').val();
+						var datetime = rshot.child('datetime').val();
+						var latitude = rshot.child('latitude').val();
+						var longitude = rshot.child('longitude').val();
+						var pest = rshot.child('pest').val();
+						
+						var stats;
+						if(rshot.child('status').val() != null){
+							stats = rshot.child('status').val();
+						}else{
+							stats = 'Unresolved';
+						}
+
+						var reporter = rshot.child('reporter').val();
+						var resolvedby = rshot.child('resolvedby').val();
+						var resolvednote = rshot.child('resolvednote').val();
+
+						//Get Reporter Info
+						var fdb = firebase.firestore().collection('users').doc(reporter);
+						fdb.get().then(function(fshot){
+							if(fshot.exists){
+								var contact = fshot.data().contact;
+								var email = fshot.data().email;
+								var firstName = fshot.data().firstName;
+								var lastName = fshot.data().lastName;
+
+								var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+								var geocoder = new google.maps.Geocoder;
+								geocoder.geocode({'location': latlng}, function(results, status) {
+									var address = null;
+									if (status === 'OK') {
+										if (results[0]) {
+											address = results[0].formatted_address;
+											addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,contact,email,firstName,lastName);
+										} else {
+											address = 'N/A';
+											addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,contact,email,firstName,lastName);
+										}
+									} else {
+										address = 'N/A' + status;
+										addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,contact,email,firstName,lastName);
+									}
+								});								
+							}
+						});
+					});
+
+					function addMarker(id,dres,drep,lat,long,add,pest,stat,resby,resnote,cont,email,fname,lname){
+						switch(pest) {
+							case 'Bark Borer':
+							icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
+							break;
+							case 'Mussel Scale':
+							icon=  'http://maps.google.com/mapfiles/kml/pushpin/blue-pushpin.png';
+							break;
+							case 'Twig Borer':
+							icon= 'http://maps.google.com/mapfiles/kml/pushpin/grn-pushpin.png';
+							break;
+						}
+
+						var image = {
+							url: icon,
+							scaledSize: new google.maps.Size(35, 35),
+							origin: new google.maps.Point(0, 0),
+							anchor: new google.maps.Point(0, 32),
+							type: 'poly',
+						};
+
+						function markerAnimate(getStatus){
+							if(getStatus == 'Resolved'){
+								return google.maps.Animation.DROP;
+							}
+							else{
+								return google.maps.Animation.BOUNCE;
+							}
+						}
+						
+						var marker = new google.maps.Marker({
+							position: {lat: lat, lng: long},
+							map: map,
+							icon: image,
+							category: pest,
+							status: stat,
+							animation: markerAnimate(stat)
+						});
+						markers.push(marker);
+
+						var resInfo;
+						if(stat == 'Resolved'){
+							resInfo = 
+							'<p class="mb-1"><b>Status: </b> '+stat+'</p>'+ 
+							'<p class="mb-1"><b>Date Resolved: </b> '+dres+'</p>'+
+							'<p class="mb-1"><b>Resolved By: </b> '+resby+'</p>'+
+							'<p class="mb-1"><b>Note: </b> '+resnote+'</p>'
+							;
+						} else {
+							resInfo =
+							'<p class="mb-1"><b>Status: </b> '+stat+'</p>'+ 
+							'<br><center><button class="btn btn-sm btn-success mb-1" id="btn-resolve" data-toggle="modal" data-target="#resolveModal">Resolve Now</button></center>'
+							;
+						}
+
+						var content = 
+						'<div class="info-window-content">'+
+						'<h6 class="mb-1 mt-1">'+pest+'</h6>'+
+						'<p class="mb-1"><b>ID: </b>'+id+'</p>'+
+						'<p><b>Address: </b>'+add+'</p>'+
+						'<p class="mb-1"><b>Reported By: </b> '+fname+' '+lname+'</p>'+
+						'<p class="mb-1"><b>Date Reported: </b> '+drep+'</p>'+
+						'<p class="mb-1"><b>Contact: </b> '+cont+'</p>'+
+						'<p><b>Email: </b> '+email+'</p>'+resInfo+
+						'</div>'
+						;
+
+						//Add Info Window
+						var infoWindow = new google.maps.InfoWindow({
+							content:content
+						});					
+
+						marker.addListener('click', function(){
+							var access = sessionStorage.getItem("Access");
+							if(access == 1) {
+								document.querySelector('#getID').innerHTML = 
+								'<label for="Note">ID</label>'+
+								'<input type="text" class="form-control" id="iid" value="'+id+'" placeholder="Enter an ID" required disabled>'
+								;
+								closeLastOpened();
+								var clickmarker = {
+									lat: lat,
+									lng: long
+								};
+								map.setCenter(clickmarker);
+								map.setZoom(10);
+
+								infoWindow.open(map, marker);
+								lastOpened = infoWindow;
+							} else {
+								document.querySelector('#top-alerts').innerHTML=
+								'<div class="mb-0 alert alert-warning fixed-bottom alert-dismissible fade show" role="alert">' +
+								'<strong>Access Denied</strong> You need to be logged as BPI admin. Your access is limited only to live map viewing.' +
+								'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+								'<span aria-hidden="true">&times;</span>' +
+								'</button>' +
+								'</div>';
+							}
+						});
+					}
+				}
+			</script>
+
+			<script>
+				var buttonRes = document.querySelector('#btn-resnow');
+				buttonRes.addEventListener('click', function(){
+					var giid = $("#iid").val();
+					var gnote = $("#note").val();
+					var d = new Date();
+					var resolvedDate = d.toLocaleString();
+					var fullName = sessionStorage.getItem("firstName") + " " + sessionStorage.getItem("lastName");
+
+					firebase.database().ref().child('infestation/'+giid).update({
+						resolvedby: fullName,
+						resolvednote: gnote,
+						dateresolved : resolvedDate,
+						status: 'Resolved'
+					}, function(error) {
+						if (error) {
+							document.querySelector('#top-alerts').innerHTML=
+								'<div class="mb-0 alert alert-danger fixed-bottom alert-dismissible fade show" role="alert">' +
+								'<strong>Error</strong> '+error.code+
+								'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+								'<span aria-hidden="true">&times;</span>' +
+								'</button>' +
+								'</div>';
+						} else {
+							initMap();
+							$("#resolveModal .close").click()
+							document.querySelector('#top-alerts').innerHTML=
+								'<div class="mb-0 alert alert-success fixed-bottom alert-dismissible fade show" role="alert">' +
+								'<strong>Success</strong> The infestation is resolved.'+
+								'<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+								'<span aria-hidden="true">&times;</span>' +
+								'</button>' +
+								'</div>';
+						}
+					});
+				});
+			</script>
+			<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&callback=initMap"></script>
+		</div>
+		<div class="bg-light" id="copyright">LPS Live Map &copy; 2019</div>
+	</body>
 </html>

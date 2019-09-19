@@ -7,25 +7,27 @@ function getUser(uid,type){
         UID = sessionStorage.getItem("uid");
         user = sessionStorage.getItem("userType");
         Type = user;
+
         switch(Type) {
             case 'Admin':
                 sessionStorage.setItem("Access",1);
-                document.querySelector('#log-out').style.display = 'inline';
-                document.querySelector('#logging-in').style.display = 'none';
-                document.querySelector('#log-in').style.display = 'none';
-                document.querySelector('#sign-up').style.display = 'inline';
-                document.querySelector('#logged-in').style.display ='block'; 
                 var firstName = sessionStorage.getItem("firstName");
                 var lastName = sessionStorage.getItem("lastName");
-                document.querySelector('#logged-in').innerHTML='<b>Welcome! '+firstName +' '+ lastName + '</b>';   
+                document.querySelector('#btn-user').innerHTML='<b>' + firstName +' '+ lastName + '</b>';
                 Acc = sessionStorage.getItem("Access");
                 console.log("SESSION\nuser:"+UID+"\ntype: "+user+"\nAccess: "+Acc);
             break;
-            case 'user':
-                auth.signOut(); 
-                const deniedmodal = document.querySelector('#deniedModal');
-                $(deniedmodal).show();
-                $('.modal-backdrop').show();
+            case 'Mobile':
+                auth.signOut();
+
+                document.querySelector('#top-alerts').innerHTML=
+                '<div class="mb-0 alert alert-warning fixed-bottom alert-dismissible fade show" role="alert">' +
+                '<strong>Access Denied</strong> You need to be logged as BPI admin. Your access is limited only to live map viewing.' +
+                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
+				'<span aria-hidden="true">&times;</span>' +
+                '</button>' +
+                '</div>';
+                
                 sessionStorage.setItem("Access",null); 
                 sessionStorage.setItem("firstName", null);
                 sessionStorage.setItem("lastName",null);            
@@ -44,7 +46,6 @@ function getUser(uid,type){
     else{
         window.alert("Sorry, your browser does not support Web Storage");
     }
-
 }
 
 function clearSession(){
@@ -53,9 +54,9 @@ function clearSession(){
     sessionStorage.setItem("Access",null);
     sessionStorage.setItem("firstName", null);
     sessionStorage.setItem("lastName",null);
-    var getType =   sessionStorage.getItem("userType");
-    var getUid =   sessionStorage.getItem("uid");
-    var getAccess =  sessionStorage.getItem("Access");
+    var getType = sessionStorage.getItem("userType");
+    var getUid = sessionStorage.getItem("uid");
+    var getAccess = sessionStorage.getItem("Access");
     console.log("SESSION\nuser:"+getUid+"\ntype: "+getType+"\nAccess: "+getAccess);
 }
 

@@ -230,11 +230,3 @@ function setMarkers(map) {
 $(document).on('click', '.btn-resolve', function(){
   getInfoId(infestationId);
 });
-
-
-
-
-
-
-
-
