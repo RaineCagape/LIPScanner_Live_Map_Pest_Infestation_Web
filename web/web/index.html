@@ -56,18 +56,15 @@
 				<div class="row">
 					<div class="col-sm-2 bg-white" id="col-panel">
 						<div style="padding: 10px;">
-							<div class="pac-card" id="pac-card">
-								<br>
-								<div id="pac-container">
-									<div class="btn-group">
-										<input class="form-control" id="pac-input" type="text" placeholder="Search for Place">
-										<span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
-									</div>
-									<div id="location-error"></div>
-									<span id="place-name" class="title"></span><br> 
-									<span id="place-address"></span>
-								</div>
-							</div><br>
+
+							<fieldset class="mb-2">
+								Search:
+								<input class="form-control" id="pac-input" type="text" placeholder="Search for Place">
+								<span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+								<div id="location-error"></div>
+								<span id="place-name" class="title"></span>
+								<span id="place-address"></span>
+							</fieldset>
 
 							<form action="#" class="optionForm" id="optionForm" method="post">
 								<fieldset class="mb-2" id="pestradio">
@@ -245,11 +242,11 @@
 
 			<script src="auth/auth.js"></script>
 			<script src="auth/session.js"></script>
-			<!-- <script src="map/map.js"></script>
-			<script src="map/marker.js"></script> -->
+			
 			<script>
 				var markers = [];
 
+				//Filter Pest and Status Display Function
 				function filter() {
 					var x = document.getElementById("pestpick").value;
 					var y = document.getElementById("statuspick").value;
@@ -363,7 +360,7 @@
 					});
 					
 
-					//Get Infestation
+					//Get Infestation					
 					var rdb = firebase.database().ref().child('infestation');
 					rdb.on('child_added', rshot => {
 						var infestationId = rshot.key;
@@ -388,33 +385,41 @@
 						var fdb = firebase.firestore().collection('users').doc(reporter);
 						fdb.get().then(function(fshot){
 							if(fshot.exists){
-								var contact = fshot.data().contact;
-								var email = fshot.data().email;
-								var firstName = fshot.data().firstName;
-								var lastName = fshot.data().lastName;
+								var rep_contact = fshot.data().contactNo;
+								var rep_email = fshot.data().email;
+								var rep_firstName = fshot.data().firstName;
+								var rep_lastName = fshot.data().lastName;
 
-								var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-								var geocoder = new google.maps.Geocoder;
-								geocoder.geocode({'location': latlng}, function(results, status) {
-									var address = null;
-									if (status === 'OK') {
-										if (results[0]) {
-											address = results[0].formatted_address;
-											addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,contact,email,firstName,lastName);
-										} else {
-											address = 'N/A';
-											addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,contact,email,firstName,lastName);
-										}
-									} else {
-										address = 'N/A' + status;
-										addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,contact,email,firstName,lastName);
+								var rfdb = firebase.firestore().collection('users').doc(resolvedby);
+								
+								rfdb.get().then(function(rfshot){
+									if(rfshot.exists){
+										var res_fullName = rfshot.data().firstName + " " + rfshot.data().lastName;
+
+										var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+										var geocoder = new google.maps.Geocoder;
+										geocoder.geocode({'location': latlng}, function(results, status) {
+											var address = null;
+											if (status === 'OK') {
+												if (results[0]) {
+													address = results[0].formatted_address;
+													addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+												} else {
+													address = 'N/A';
+													addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+												}
+											} else {
+												address = 'N/A' + status;
+												addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+											}
+										});
 									}
-								});								
+								});
 							}
-						});
+						});								
 					});
 
-					function addMarker(id,dres,drep,lat,long,add,pest,stat,resby,resnote,cont,email,fname,lname){
+					function addMarker(id,dres,drep,lat,long,add,pest,stat,resby,resnote,cont,email,fname,lname,ureporter){
 						switch(pest) {
 							case 'Bark Borer':
 							icon= 'http://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png';
@@ -471,7 +476,7 @@
 
 						var content = 
 						'<div class="info-window-content">'+
-						'<h6 class="mb-1 mt-1">'+pest+'</h6>'+
+						'<h6 class="mb-1 mt-1">'+pest+'</h6>' +
 						'<p class="mb-1"><b>ID: </b>'+id+'</p>'+
 						'<p><b>Address: </b>'+add+'</p>'+
 						'<p class="mb-1"><b>Reported By: </b> '+fname+' '+lname+'</p>'+
@@ -491,7 +496,8 @@
 							if(access == 1) {
 								document.querySelector('#getID').innerHTML = 
 								'<label for="Note">ID</label>'+
-								'<input type="text" class="form-control" id="iid" value="'+id+'" placeholder="Enter an ID" required disabled>'
+								'<input type="text" class="form-control" id="iid" value="'+id+'" placeholder="Enter an ID" required disabled>' +
+								'<select style="display:none" class="form-control" id="repID" multiple><option value="'+ureporter+'" selected>'+ureporter+'</option></select>'
 								;
 								closeLastOpened();
 								var clickmarker = {
@@ -515,19 +521,20 @@
 						});
 					}
 				}
-			</script>
 
-			<script>
 				var buttonRes = document.querySelector('#btn-resnow');
 				buttonRes.addEventListener('click', function(){
 					var giid = $("#iid").val();
+					var grid = $("#repID").val();
 					var gnote = $("#note").val();
 					var d = new Date();
-					var resolvedDate = d.toLocaleString();
-					var fullName = sessionStorage.getItem("firstName") + " " + sessionStorage.getItem("lastName");
+					var resDate = d.toLocaleString();
+					var resolvedDate = resDate.replace(',',"");
+
+					var userID = sessionStorage.getItem("uid");
 
 					firebase.database().ref().child('infestation/'+giid).update({
-						resolvedby: fullName,
+						resolvedby: userID,
 						resolvednote: gnote,
 						dateresolved : resolvedDate,
 						status: 'Resolved'
@@ -541,6 +548,40 @@
 								'</button>' +
 								'</div>';
 						} else {
+							var urdb = firebase.database().ref().child('users');
+							urdb.on('child_added', ushot => {
+								var udbrepID = ushot.key;
+
+								if(udbrepID == grid) {
+									var udbrepToken = [ushot.child('token').val()];
+									var notify = "Your Pest Infestation Issue Has Been Resolved";
+									var notifymessage = "";
+									
+									$.ajax({
+										type: 'POST',
+										url: 'https://fcm.googleapis.com/fcm/send',
+										headers:{
+											Authorization: 'key=AIzaSyBtOraEGHoSChBG-ggE6en-D4Jg8nfKsC8'
+										},
+										contentType: 'application/json',
+										dataType: 'json',
+										data: JSON.stringify({
+											"registration_ids":udbrepToken,
+											"notification":{
+												"title": notify,
+												"body": gnote
+											}
+										}),
+										success: function(reponse){
+											
+										},
+										error: function(error){
+											
+										}
+									});
+								}
+							});
+							
 							initMap();
 							$("#resolveModal .close").click()
 							document.querySelector('#top-alerts').innerHTML=
