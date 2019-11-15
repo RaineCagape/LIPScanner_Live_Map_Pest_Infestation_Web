@@ -31,6 +31,7 @@
     margin-right: 10px;
 }
 
+
 #note {
     resize: none;
 }
@@ -45,4 +46,25 @@
     font-size: 14px;
     cursor: pointer;
     color: #ccc;
+}
+ /*Infestation List */
+#infestationModal{
+    position: absolute;
+    top: 35px;
+    right: -930px;
+    bottom: 0;
+    margin: 0px !important;
+}
+.card-body {
+    font-size: 20px;
+}
+
+.infestation {
+    overflow-y: scroll;
+    max-width: 400px !important;
+    max-height: 420px !important;
+}
+
+.list-group-item{
+    font-size: 13px;
 }

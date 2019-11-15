@@ -10,6 +10,8 @@
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 
 		<script src="js/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 
 		<script src="js/firebase-app.js"></script>
@@ -20,7 +22,7 @@
 		<script src="js/firebase-firestore.js"></script>
 		<script src="config/firebasedb.js"></script>
 	</head>
-	<script >
+	<script>
 		
 	</script>
 	<body>
@@ -42,6 +44,7 @@
 					<li class="nav-item dropdown" id="nav-dropdown-user">
 						<a class="nav-link dropdown-toggle" href="#" id="btn-user" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" data-backdrop="false" data-toggle="modal" data-target="#infestationModal">Infestations</a>
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#signupModal">Create Account</a>
 							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#signoutModal">Sign Out</a>
 						</div>
@@ -49,7 +52,6 @@
 				</ul>
   			</div>
 		</nav>
-
 
 		<div class="container-fluid">
 			<div id="content">
@@ -240,11 +242,31 @@
 				</div>
 			</div>
 
+			<!-- Infestation Modal -->
+			<div id="infestationModal" class="modal fade">
+				<div class="modal-dialog" style="max-width: 400px!important;">
+					<div class="modal-content">
+							<div class="modal-header">
+								 <h5 class="modal-title">Infestations</h5>  
+								 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							<div class=" infestation modal-body ">
+								<div class="card">
+										<ul id="inflist" class="list-group list-group-flush"></ul>
+								</div>
+									
+							</div>
+						</div>
+				</div>
+			</div>
+
 			<script src="auth/auth.js"></script>
 			<script src="auth/session.js"></script>
-			
 			<script>
+					$( "#infestationModal" ).draggable();
+					
 				var markers = [];
+				var map;
 
 				//Filter Pest and Status Display Function
 				function filter() {
@@ -304,7 +326,7 @@
 					}
 
 					//New Map
-					var map = new google.maps.Map(document.getElementById('map'), options);
+					 map = new google.maps.Map(document.getElementById('map'), options);
 
 					//Get User Location
 					if (navigator.geolocation) {
@@ -389,56 +411,99 @@
 								var rep_email = fshot.data().email;
 								var rep_firstName = fshot.data().firstName;
 								var rep_lastName = fshot.data().lastName;
-
-								var rfdb = firebase.firestore().collection('users').doc(resolvedby);
 								
-								rfdb.get().then(function(rfshot){
-									if(rfshot.exists){
-										var res_fullName = rfshot.data().firstName + " " + rfshot.data().lastName;
+								if (resolvedby != "N/A"){
+									var rfdb = firebase.firestore().collection('users').doc(resolvedby);
+									
+									rfdb.get().then(function(rfshot){
+										if(rfshot.exists){
+											var res_fullName = rfshot.data().firstName + " " + rfshot.data().lastName;
 
-										var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
-										var geocoder = new google.maps.Geocoder;
-										geocoder.geocode({'location': latlng}, function(results, status) {
-											var address = null;
-											if (stats =='Resolved'){
-												var yearresolved = dateresolved.slice(6, 11);
-												console.log(yearresolved);
-												var year = Number(yearresolved)+1;
-												console.log(year);
-												var d = new Date();
-  												var curyear = d.getFullYear();
-												if(year >= curyear){
-													if (status === 'OK') {
-														if (results[0]) {
-															address = results[0].formatted_address;
-															addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+											var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+											var geocoder = new google.maps.Geocoder;
+											geocoder.geocode({'location': latlng}, function(results, status) {
+												var address = null;
+												if (stats == 'Resolved'){
+													//Limits resolved markers 1 year of display 
+													var yearresolved = dateresolved.slice(6, 11);
+													var year = Number(yearresolved)+1;
+													var d = new Date();
+													var curyear = d.getFullYear();
+													if(year >= curyear){
+														if (status === 'OK') {
+															if (results[0]) {
+																address = results[0].formatted_address;
+																addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+															} else {
+																address = 'N/A';
+																addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+															}
 														} else {
-															address = 'N/A';
+															address = 'N/A' + status;
 															addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
 														}
+													}
+												}else{
+													if (status === 'OK') {
+															if (results[0]) {
+																address = results[0].formatted_address;
+																addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+															} else {
+																address = 'N/A';
+																addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+															}
 													} else {
 														address = 'N/A' + status;
 														addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
 													}
 												}
-											}else{
+
+											});
+										}
+									});
+								}else{
+									var latlng = {lat: parseFloat(latitude), lng: parseFloat(longitude)};
+									var geocoder = new google.maps.Geocoder;
+									geocoder.geocode({'location': latlng}, function(results, status) {
+										var address = null;
+										if (stats == 'Resolved'){
+											//Limits resolved markers 1 year of display 
+											var yearresolved = dateresolved.slice(6, 11);
+											var year = Number(yearresolved)+1;
+											var d = new Date();
+											var curyear = d.getFullYear();
+											if(year >= curyear){
 												if (status === 'OK') {
-														if (results[0]) {
-															address = results[0].formatted_address;
-															addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
-														} else {
-															address = 'N/A';
-															addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
-														}
+													if (results[0]) {
+														address = results[0].formatted_address;
+														addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+													} else {
+														address = 'N/A';
+														addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+													}
 												} else {
 													address = 'N/A' + status;
-													addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,res_fullName,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+													addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
 												}
 											}
+										}else{
+											if (status === 'OK') {
+												if (results[0]) {
+													address = results[0].formatted_address;
+													addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+												} else {
+													address = 'N/A';
+													addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+												}
+											} else {
+												address = 'N/A' + status;
+												addMarker(infestationId,dateresolved,datetime,latitude,longitude,address,pest,stats,resolvedby,resolvednote,rep_contact,rep_email,rep_firstName,rep_lastName,reporter);
+											}
+										}
 
-										});
-									}
-								});
+									});
+								}
+
 							}
 						});								
 					});
@@ -546,6 +611,7 @@
 					}
 				}
 
+				//Resolve Infestations
 				var buttonRes = document.querySelector('#btn-resnow');
 				buttonRes.addEventListener('click', function(){
 					var giid = $("#iid").val();
@@ -618,6 +684,61 @@
 						}
 					});
 				});
+
+				//Infestation Lists 
+				var r2db = firebase.database().ref().child('infestation');
+					r2db.on('child_added', r2shot => {
+						if(r2shot.child('status').val() != 'Resolved'){
+							var infdate = r2shot.child('datetime').val();
+							var inflong = r2shot.child('longitude').val();
+							var inflat = r2shot.child('latitude').val();
+							var infpest = r2shot.child('pest').val();
+							var textnode = null;
+							var listItem = null;
+							var inflatlng = {lat: parseFloat(inflat), lng: parseFloat(inflong)};
+							var geocoder = new google.maps.Geocoder;
+							geocoder.geocode({'location': inflatlng}, function(res, sta) {
+								var infaddress = null;
+								var infolist = null;
+								var isClicked = null;
+								var locate = null;
+								if (sta === 'OK') {
+									if (res[0]) {
+										listItem = document.createElement("button");
+										listItem.className = 'list-group-item ';
+										infaddress = res[0].formatted_address;
+										listItem.innerHTML = "A <b>"+infpest+"</b> infestation emerged at <i>"+infaddress+"</i>. &nbsp;<small>("+infdate+")</small>";
+										document.getElementById('inflist').appendChild(listItem);
+									} else {
+										listItem = document.createElement("button");
+										listItem.className = 'list-group-item';
+										infaddress = 'N/A';								
+										listItem.innerHTML = "A <b>"+infpest+"</b> infestation emerged at <i>"+infaddress+"</i>. &nbsp;<small>("+infdate+")</small>";
+  										document.getElementById('inflist').appendChild(listItem);
+									}
+								} else {
+									listItem = document.createElement("button");
+									listItem.className = 'list-group-item';
+									infaddress = 'N/A' + sta;
+									listItem.innerHTML = "A <b>"+infpest+"</b> infestation emerged at <i>"+infaddress+"</i>. &nbsp;<small>("+infdate+")</small>";
+  									document.getElementById('inflist').appendChild(listItem);
+								}
+								
+								isClicked = document.querySelector('.list-group-item');
+								isClicked.addEventListener('click', (e) => {
+									locate = {
+										lat: inflat,
+										lng: inflong
+												};
+									map.setCenter(locate);
+									map.setZoom(18);
+								});
+							});	
+							
+						}
+					});
+					
+						
 			</script>
 			<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6OiUJeuWP82cOlwxHzAFlLlx51XS6mn4&libraries=places&callback=initMap"></script>
 		</div>
